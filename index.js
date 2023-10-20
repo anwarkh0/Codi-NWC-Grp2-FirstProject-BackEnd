@@ -1,14 +1,42 @@
 import express from "express";
 const app = express();
+import dotenv from "dotenv";
+import mongoose from "mongoose";
+import authRoute from "./routes/auth.js";
+import hotelRoute from "./routes/hotel.js";
+import roomRoute from "./routes/room.js";
+import userRoute from "./routes/user.js";
+import cors from "cors";
+
+dotenv.config();
+
 const port = process.env.PORT || 8000;
 
-app.get("/", (req, res) => {
-  res.status(200).json({
-    status: 200,
-    message: "server is running just fine",
-  });
+//middlewares
+app.use(cors());
+app.use(express.json());
+app.use("/auth", authRoute);
+app.use("/hotel", hotelRoute);
+app.use("/room", roomRoute);
+app.use("/user", userRoute);
+
+const connect = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO);
+    console.log("Connected to mongoDB");
+  } catch (error) {
+    throw error;
+  }
+};
+
+mongoose.connection.on("disconnected", () => {
+  console.log("mongoDB disconnected");
+});
+mongoose.connection.on("connected", () => {
+  console.log("mongoDB connected");
 });
 
 app.listen(port, () => {
+  connect();
   console.log(`server is listening on port ${port}`);
 });
