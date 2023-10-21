@@ -2,10 +2,7 @@ import express from "express";
 const app = express();
 import dotenv from "dotenv";
 import mongoose from "mongoose";
-import authRoute from "./routes/auth.js";
-import hotelRoute from "./routes/hotel.js";
 import roomRoute from "./routes/room.js";
-import userRoute from "./routes/user.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 
@@ -17,8 +14,6 @@ const port = process.env.PORT || 8000;
 app.use(cookieParser());
 app.use(cors());
 app.use(express.json());
-app.use("/auth", authRoute);
-app.use("/hotel", hotelRoute);
 app.use("/room", roomRoute);
 app.use("/user", userRoute);
 app.use((err, req, res, next) => {
