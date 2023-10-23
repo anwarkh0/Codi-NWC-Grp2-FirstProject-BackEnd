@@ -28,11 +28,7 @@ export const login = async (req, res, next) => {
       user.password
     );
     if (!isPasswordCorrect)
-<<<<<<< HEAD
-      return res.send("username or password incorrect ! ");
-=======
       return res.send("password or username incorrect ! ");
->>>>>>> de5f556 (created MVC users and added hashing for passwords)
 
     const token = jwt.sign(
       { id: user._id, isAdmin: user.isAdmin },
