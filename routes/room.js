@@ -1,9 +1,5 @@
 import express from "express";
 
-<<<<<<< HEAD
-const router = express.Router();
-
-=======
 import {
   displayRooms,
   selectRoom,
@@ -34,5 +30,4 @@ router.patch("/:id", addRoom); //with auth
 //get rooms for a specific hotel
 router.get("/:id/rooms", displayRoomsByHotel);
 
->>>>>>> de5f556 (created MVC users and added hashing for passwords)
 export default router;
