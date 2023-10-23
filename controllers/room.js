@@ -44,7 +44,11 @@ const addRoom = async (req, res) => {
         let newRoom = new Room({ name, price, people, services, rules, dates })
         await newRoom.save();
         res.status(200).json({ message: "room added succefully", data: displayRooms() })
+try{
 
+}catch(error){
+    res.status(500).json({ error: error })
+}
     } catch (error) {
         res.status(500).json({ error: error })
     }
@@ -52,7 +56,6 @@ const addRoom = async (req, res) => {
 
 
 const displayRoomsByHotel = (req, res) => {
-
     res.status(200).json({ message: "hotelsRoom" })
 
 }

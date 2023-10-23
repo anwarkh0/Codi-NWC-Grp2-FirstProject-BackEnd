@@ -1,22 +1,18 @@
-// import mongoose from "mongoose";
-// const { Schema } = mongoose;
-
-// const RoomSchema = new mongoose.Schema({});
-
-// export default mongoose.model("Room", RoomSchema);
-
-
 
 import mongoose, { Schema } from "mongoose"
 const RoomSchema = Schema({
     name: {
-        type: String
+        type: String,
+        required:true
     },
     price: {
-        type: Number
+        type: Number,
+        required:true
+
     },
     poeple: {
         type: Number,
+        required:true,
         min: 1,
         max: 2
     },
@@ -31,12 +27,7 @@ const RoomSchema = Schema({
     },
     rulesDesc: {
         type: [String]
-    },
-    dates: {
-        type: [String]
     }
-
-
 
 })
 
