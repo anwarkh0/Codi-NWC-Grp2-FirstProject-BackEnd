@@ -2,15 +2,15 @@ import mongoose, { Schema } from "mongoose";
 const RoomSchema = Schema({
   name: {
     type: String,
-    required: true
+    required: true,
   },
   price: {
     type: Number,
-    required: true
+    required: true,
   },
   people: {
     type: Number,
-    required: true
+    required: true,
   },
   images: {
     type: String,
