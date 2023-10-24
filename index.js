@@ -8,12 +8,14 @@ import authRoute from "./routes/auth.js";
 import hotelRoute from "./routes/hotel.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
 const port = process.env.PORT || 8000;
 
 //middlewares
+app.use(cookieParser());
 app.use(cookieParser());
 app.use(cors());
 app.use(express.json());
