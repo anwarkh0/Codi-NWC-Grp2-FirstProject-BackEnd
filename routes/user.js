@@ -1,12 +1,23 @@
 import express from "express";
 import {
+  register,
+  login,
   updateUser,
   deleteUser,
   getUser,
   getUsers,
 } from "../controllers/user.js";
-import { verifyToken, verifyUser, verifyAdmin } from "../utils/verifyToken.js";
+import uploadImage from "../middleware/multer.js";
+import {
+  verifyToken,
+  verifyUser,
+  verifyAdmin,
+} from "../middleware/verifyToken.js";
 const router = express.Router();
+
+router.post("/register", uploadImage.single("image"), register);
+
+router.post("/login", login);
 
 router.get("/checkauthentication", verifyToken, (req, res, next) => {
   res.send(`hello ${req.body.username}! log in successful !`);

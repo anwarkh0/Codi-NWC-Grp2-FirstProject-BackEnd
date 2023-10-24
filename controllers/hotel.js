@@ -1,4 +1,3 @@
-import express from "express";
 import Hotel from "../models/Hotel.js";
 
 //create Hotel
