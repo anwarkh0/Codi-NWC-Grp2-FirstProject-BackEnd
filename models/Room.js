@@ -1,19 +1,24 @@
 import mongoose, { Schema } from "mongoose";
 const RoomSchema = Schema({
-  name: {
-    type: String,
-    required: true,
-  },
-  price: {
-    type: Number,
-    required: true,
-  },
-  people: {
+  number: {
     type: Number,
     required: true,
   },
   images: {
     type: String,
+    required:true
+  },
+  type:{
+    type:String,
+    required:true
+  },
+  price: {
+    type: Number,
+    required: true,
+  },
+  maxpeople: {
+    type: Number,
+    required: true,
   },
   servicesIcon: {
     type: [String],
@@ -21,15 +26,11 @@ const RoomSchema = Schema({
   servicesDesc: {
     type: [String],
   },
-  rulesIcon: {
-    type: [String],
-  },
-  rulesDesc: {
-    type: [String],
-  },
-  unavailableDates: {
-    type: [Date],
-  },
+  isBooked:{
+    type:Boolean,
+    required:true
+  }
+  
 });
 
 const Room = new mongoose.model("Room", RoomSchema);
