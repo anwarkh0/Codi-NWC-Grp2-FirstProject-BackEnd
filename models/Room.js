@@ -1,6 +1,13 @@
 import mongoose, { Schema } from "mongoose";
 const RoomSchema = Schema({
-  name: {
+  number: {
+    type: Number,
+    required: true
+  },
+  images: {
+    type: [String],
+  },
+  type: {
     type: String,
     required: true
   },
@@ -8,12 +15,9 @@ const RoomSchema = Schema({
     type: Number,
     required: true
   },
-  people: {
+  maxpeople: {
     type: Number,
     required: true
-  },
-  images: {
-    type: String,
   },
   servicesIcon: {
     type: [String],
@@ -21,15 +25,10 @@ const RoomSchema = Schema({
   servicesDesc: {
     type: [String],
   },
-  rulesIcon: {
-    type: [String],
-  },
-  rulesDesc: {
-    type: [String],
-  },
-  unavailableDates: {
-    type: [Date],
-  },
+  isBooked: {
+    type: Boolean,
+    required: true
+  }
 });
 
 const Room = new mongoose.model("Room", RoomSchema);
