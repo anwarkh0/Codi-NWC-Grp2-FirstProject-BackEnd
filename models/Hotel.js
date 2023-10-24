@@ -14,17 +14,15 @@ const HotelSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  photos: {
-    type: [String],
+  rate:{
+    type:Number,
+    min: 0,
+    max: 5,
   },
-  title: {
-    type: String,
-    required: true,
-  },
-  desc: {
-    type: String,
-    required: true,
-  },
+  images:{
+    type:[string]
+  }
+  
   rating: {
     type: Number,
     min: 0,
