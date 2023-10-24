@@ -1,4 +1,5 @@
 // import Room from "../models/Room.js";
+import { verifyAdmin } from "../utils/verifyToken.js";
 
 import {
   displayRooms,
@@ -12,22 +13,24 @@ import {
 import express from "express";
 const router = express.Router();
 
+
+//add Room(dashboard)
+router.post("/:hotelId", verifyAdmin, addRoom); //with auth
+
 //get all rooms available
-router.get("/", displayRooms);
+router.get("/?:sorting", displayRooms);
+
 
 //get room by id (for dashboard and room services)
 router.get("/:id", selectRoom);
 
 //Remove Room(dashboard)
-router.delete("/:id", deleteRoom); //with auth
+router.delete("/:roomId/:hotelId", verifyAdmin, deleteRoom); //with auth
 
 //edit Room(dashboard)
-router.patch("/:id", editRoom); //with auth
+router.put("/:id", verifyAdmin, editRoom); //with auth
 
-//add Room(dashboard)
-router.patch("/:id", addRoom); //with auth
-
-//get rooms for a specific hotel
-router.get("/:id/rooms", displayRoomsByHotel);
+// get rooms for a specific hotel
+router.get("/:HotelId", displayRoomsByHotel);
 
 export default router;

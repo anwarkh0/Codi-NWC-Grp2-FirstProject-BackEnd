@@ -3,6 +3,7 @@ const app = express();
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import roomRoute from "./routes/room.js";
+import userRoute from './routes/user.js'
 import cors from "cors";
 import cookieParser from "cookie-parser";
 

@@ -2,14 +2,18 @@ import mongoose, { Schema } from "mongoose";
 const RoomSchema = Schema({
   name: {
     type: String,
+    required: true
   },
   price: {
     type: Number,
+    required: true
   },
-  poeple: {
+  people: {
     type: Number,
-    min: 1,
-    max: 2,
+    required: true
+  },
+  images: {
+    type: String,
   },
   servicesIcon: {
     type: [String],
@@ -23,8 +27,8 @@ const RoomSchema = Schema({
   rulesDesc: {
     type: [String],
   },
-  dates: {
-    type: [String],
+  unavailableDates: {
+    type: [Date],
   },
 });
 
