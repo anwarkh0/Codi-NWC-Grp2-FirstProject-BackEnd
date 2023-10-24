@@ -16,7 +16,6 @@ const port = process.env.PORT || 8000;
 
 //middlewares
 app.use(cookieParser());
-app.use(cookieParser());
 app.use(cors());
 app.use(express.json());
 app.use("/room", roomRoute);
