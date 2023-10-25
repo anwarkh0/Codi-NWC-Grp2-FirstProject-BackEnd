@@ -1,4 +1,4 @@
-// import Room from "../models/Room.js";
+import uploadImage from "../middleware/multer.js";
 import { verifyAdmin } from "../middleware/verifyToken.js";
 
 import {
@@ -14,7 +14,7 @@ import express from "express";
 const router = express.Router();
 
 //add Room(dashboard)
-router.post("/:hotelId", verifyAdmin, addRoom); //with auth
+router.post("/:hotelId", uploadImage.single("image"), verifyAdmin, addRoom); //with auth
 
 //get all rooms available
 router.get("/?:sorting", displayRooms);
