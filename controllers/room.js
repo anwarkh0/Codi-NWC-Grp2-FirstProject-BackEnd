@@ -68,10 +68,13 @@ const addRoom = async (req, res) => {
   try {
     let savedRoom = await newRoom.save();
 
-    try {
-      await Hotel.findByIdAndApdate(hotelId, {
-        $push: { rooms: savedRoom._id },
-      });
+        try {
+            await Hotel.findByIdAndUpdate(hotelId, { $push: { rooms: savedRoom._id }, })
+        } catch (error) {
+            res.status(500).json({ error: error })
+        }
+
+        res.status(200).json({ message: "room added succefully", data: savedRoom })
     } catch (error) {
       res.status(500).json({ error: error });
     }

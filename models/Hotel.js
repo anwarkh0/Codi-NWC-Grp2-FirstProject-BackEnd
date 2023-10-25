@@ -14,27 +14,30 @@ const HotelSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  rate:{
-    type:Number,
-    min: 0,
-    max: 5,
-  },
-  images:{
-    type:[string]
-  }
-  
-  rating: {
+  rate: {
     type: Number,
     min: 0,
     max: 5,
   },
-  rooms: {
-    type: [String],
+  images: {
+    type: [String]
   },
-  cheapestPrice: {
+  rules: { Icons: { type: [String] }, Desc: { type: [String] } },
+  roomNumber: {
     type: Number,
-    required: true,
+    required: true
   }
+
 });
 
 export default mongoose.model("Hotel", HotelSchema);
+
+// {
+//   "name":"Lancaster",
+//   "city":"Beirut",
+//   "address":"raoucheh",
+//   "rate":4,
+//   "images":["imaag1","imag2"],
+//   "rules":{"Icons":["ima1","im2"],"Desc":["desc1","desc2"]},
+//   'roomNumber':2
+// }
