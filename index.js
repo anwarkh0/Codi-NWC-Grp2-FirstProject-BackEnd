@@ -11,6 +11,7 @@ import { errorTemplate } from "./utils/error.js";
 dotenv.config();
 
 const port = process.env.PORT || 8000;
+const staticDirectory = "./images";
 
 //middlewares
 app.use(cookieParser());
@@ -20,6 +21,7 @@ app.use("/room", roomRoute);
 app.use("/user", userRoute);
 app.use("/hotel", hotelRoute);
 app.use(errorTemplate);
+app.use("/images", express.static(staticDirectory));
 
 app.listen(port, () => {
   connect();
