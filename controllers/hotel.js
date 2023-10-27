@@ -2,7 +2,7 @@ import Hotel from "../models/Hotel.js";
 
 //create Hotel
 export const createHotel = async (req, res) => {
-  const newHotel = new Hotel(req.body);
+  const newHotel = new Hotel(req.body, req.file.path);
   try {
     const savedHotel = await newHotel.save();
     res.status(200).json(savedHotel);
