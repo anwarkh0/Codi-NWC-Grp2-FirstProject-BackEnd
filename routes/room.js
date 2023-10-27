@@ -15,22 +15,22 @@ const router = express.Router();
 
 
 //add Room(dashboard)
-router.post("/:hotelId", verifyAdmin, addRoom); //with auth
+router.post("/:hotelId", addRoom); //with auth
 
 //get all rooms available
-router.get("/?:sorting", displayRooms);
+router.get("/:sorting?", displayRooms);
 
 
 //get room by id (for dashboard and room services)
 router.get("/:id", selectRoom);
 
 //Remove Room(dashboard)
-router.delete("/:roomId/:hotelId", verifyAdmin, deleteRoom); //with auth
+router.delete("/:roomId/:hotelId", deleteRoom); //with auth
 
 //edit Room(dashboard)
-router.put("/:id", verifyAdmin, editRoom); //with auth
+router.put("/:id", editRoom); //with auth
 
 // get rooms for a specific hotel
-router.get("/:HotelId", displayRoomsByHotel);
+router.get("/byHotel/:hotelId", displayRoomsByHotel);
 
 export default router;

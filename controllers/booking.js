@@ -1,70 +1,69 @@
-import Booking from "../models/Booking";
+import Booking from "../models/Booking.js";
 import Room from '../models/Room.js'
 
+
+///':idRomm/:idUser'
 const addBooking = async (req, res) => {
-    let idRoom = req.params.idRoom;
-    let idUser = req.params.idUser;
-
-    let newBooking = new Booking(req.body)
     try {
-        let savedBooking = await newBooking.save();
+
+        const { room_id, user_id, checkIn, checkOut, mobileNumber, fullName } = req.body;
+
+        //get Room by id
+        let selectedRoom;
+        try { selectedRoom = await Room.findById(room_id); } catch (error) { console.log("No room found") }
+
+        //update the status of room
+        await Room.findByIdAndUpdate(room_id, { isBooked: true });
+
+        //update the totalPrice according to checkIn and checkOut dates
+        let totalPrice = selectedRoom.price * ((checkOut - checkIn) / (24 * 3600 * 1000));
+
 
         try {
-            await Booking.findByIdAndUpdate(savedBooking._id, { $push: { room_id: idRoom, user_id: idUser }, })
-        } catch (error) {
-            res.status(500).json({ error: error })
+            let newBooking = new Booking({ room_id, user_id, checkIn, checkOut, mobileNumber, fullName,totalPrice });
+            let savedBooking = await newBooking.save();
+            res.status(200).json({ message: "Booking added succefully", data: savedBooking })
+
         }
+        catch (error) { console.log('Booking had been created succ'); }
 
 
-        //change the status of room after adding it ti the DB (as booked room)
-        try {
-            savedBooking.room_id.map(async(elt) => await Room.findByIdAndUpdate(elt, { isBooked: true }))
-        }
-        catch (error) {
-            res.status(500).json({ error: error })
-        }
 
-        res.status(200).json({ message: "Booking added succefully", data: savedBooking })
-    } catch (error) {
+    } catch (error) { 
+
         res.status(500).json({ error: error })
-
-
-        //totalPrice value roomPrice?* disc Date
     }
 }
 
 
 //delete booking remove id and turn isAvailable
-// const deleteBooking = async (req, res) => {
-// let idBooking=req.params.idBooking;
-  
 
+const deleteBooking = async (req, res) => {
+    try {
 
-//      try {
-//             savedBooking.room_id.map(elt => Room.findByIdAndUpdate(elt, { isAvailable: true}))
-//         }
-//         catch (error) {
-//             res.status(500).json({ error: error })
-//         }
-    
+        //get booking 
+        let booking = await Booking.findById(req.params.id);
+        let roomId = booking.room_id;
 
-//         try {
-//             await Booking.findByIdAndDelete(idBooking)
-//         } catch (error) {
-//             res.status(500).json({ error: error })
-//         }
+        //update room status
+        await Room.findByIdAndUpdate(roomId, { isBooked: false })
 
+        //delete room
+        await Booking.findByIdAndDelete(req.params.id);
 
-//         //isAvailble to false use lookup to get room according  to id  then accesss to isAvailable  to true
-       
-//         res.status(200).json({ message: "Booking added succefully", data: savedBooking })
-//     } catch (error) {
-//         res.status(500).json({ error: error })
+        res.status(200).json({ message: "Booking deleted succefully" })
 
-
-//         //totalPrice value roomPrice?* disc Date
-//     }
-// }
+    } catch (error) {
+        res.status(500).json({ error: error })
+    }
+}
 
 
 export { addBooking, deleteBooking };
+
+// { "room_id":"653b3d36794a72ae7d3b4f7f",
+//  "user_id":"6538e3635cde1f82a091aa8a",
+//  "checkIn":"2023-08-08", 
+//   "checkOut":"2023-08-16",
+//    "mobileNumber":6871648648,
+//      "fullName":"souheir" }
