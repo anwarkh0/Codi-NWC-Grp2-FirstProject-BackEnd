@@ -23,12 +23,12 @@ router.get("/?:sorting", displayRooms);
 router.get("/:id", selectRoom);
 
 //Remove Room(dashboard)
-router.delete("/:roomId/:hotelId", verifyAdmin, deleteRoom); //with auth
+router.delete("/:roomId/:hotelId", deleteRoom); //with auth
 
 //edit Room(dashboard)
-router.put("/:id", verifyAdmin, editRoom); //with auth
+router.put("/:id", editRoom); //with auth
 
 // get rooms for a specific hotel
-router.get("/:HotelId", displayRoomsByHotel);
+router.get("/byHotel/:hotelId", displayRoomsByHotel);
 
 export default router;

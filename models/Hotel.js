@@ -25,8 +25,10 @@ const HotelSchema = new mongoose.Schema({
   rules: { Icons: { type: [String] }, Desc: { type: [String] } },
   roomNumber: {
     type: Number,
-    required: true
-  }
+  },
+  rooms:
+    [{type:mongoose.Schema.Types.ObjectId,ref:'Room'}]
+  
 
 });
 
@@ -39,5 +41,5 @@ export default mongoose.model("Hotel", HotelSchema);
 //   "rate":4,
 //   "images":["imaag1","imag2"],
 //   "rules":{"Icons":["ima1","im2"],"Desc":["desc1","desc2"]},
-//   'roomNumber':2
+//   "roomNumber":2
 // }

@@ -5,13 +5,21 @@ import Hotel from "../models/Hotel.js";
 const displayRooms = async (req, res) => {
   let rooms = [];
 
-  try {
-    if (req.params.sorting === undefine) {
-      rooms = await Room.find();
-    } else if (sorting === "Low-price") {
-      rooms = await Room.find().sort({ price: 1 });
-    } else if (sorting === "High-price") {
-      rooms = await Room.find().sort({ price: -1 });
+    try {
+        if (req.params.sorting === undefined) {
+            rooms = await Room.find();
+        }
+        else if (req.params.sorting === 'Low-price') {
+            rooms = await Room.find().sort({ price: 1 });
+            1
+        }
+        else if (req.params.sorting === 'High-price') {
+            rooms = await Room.find().sort({ price: -1 });
+
+        }
+
+        res.status(200).json({ 'dataRooms': rooms })
+
     }
 
     res.status(200).json({ dataRooms: rooms });
@@ -50,15 +58,14 @@ const deleteRoom = async (req, res) => {
 
 //find from data base then apdate
 const editRoom = async (req, res) => {
-  try {
-    const editedRoom = await Room.findByIdAndApdate(req.params.id, req.body, {
-      new: true,
-    });
-    res.status(200).json({ data: editedRoom });
-  } catch (error) {
-    res.status(500).json({ error: error });
-  }
-};
+    try {
+        const editedRoom = await Room.findByIdAndUpdate(req.params.id, req.body, { new: true })
+        res.status(200).json({ data: editedRoom })
+
+    } catch (error) { res.status(500).json({ "error": error }) }
+}
+
+
 
 //add room and add id to the hotel
 const addRoom = async (req, res) => {
@@ -85,15 +92,24 @@ const addRoom = async (req, res) => {
   }
 };
 
-const displayRoomsByHotel = (req, res) => {
-  let hotelId = req.params.hotelId;
-  let arrayOfRoomsId = Hotel.findById(hotelId).rooms;
-  arrayOfRoomsId.map((roomId) => {
-    var arrayRooms = [];
-    arrayRooms.push(Room.findById(roomId));
-  });
-  res.status(200).json({ data: arrayRooms });
-};
+
+
+const displayRoomsByHotel = async (req, res) => {
+    try {
+        let hotel = await Hotel.findById(req.params.hotelId);
+
+        if (hotel && hotel.rooms != []) {
+            let data = await hotel.populate({ path: "rooms", model: "Room" });
+
+            res.status(200).json({ data: data })
+        }
+        else {
+            res.status(404).json({ message: "No rooms are available" })
+        }
+    }
+    catch (error) { res.status(500).json({ error: error }) }
+
+}
 
 export {
   displayRooms,

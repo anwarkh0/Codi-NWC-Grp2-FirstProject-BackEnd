@@ -2,11 +2,11 @@ import mongoose from 'mongoose'
 
 const BookingSchema=mongoose.Schema({
     room_id:{
-        type:[String],
+        type:String,
         required:true
     },
     user_id:{
-        type:[String],
+        type:String,
         required:true
     },
     checkIn:{
@@ -30,3 +30,6 @@ const BookingSchema=mongoose.Schema({
      });
 
      export default mongoose.model("Booking",BookingSchema)
+
+
+    
