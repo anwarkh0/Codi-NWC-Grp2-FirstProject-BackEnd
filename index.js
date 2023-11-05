@@ -1,4 +1,5 @@
 import express from "express";
+import mongoose from 'mongoose'
 const app = express();
 import dotenv from "dotenv";
 import roomRoute from "./routes/room.js";
@@ -23,14 +24,14 @@ app.use("/room", roomRoute);
 app.use("/user", userRoute);
 app.use("/hotel", hotelRoute);
 app.use("booking", bookingRoute);
-const connect = async () => {
-  try {
-    await mongoose.connect(process.env.MONGO);
-    console.log("Connected to mongoDB");
-  } catch (error) {
-    throw error;
-  }
-};
+// const connect = async () => {
+//   try {
+//     await mongoose.connect(process.env.MONGO);
+//     console.log("Connected to mongoDB");
+//   } catch (error) {
+//     throw error;
+//   }
+// };
 
 mongoose.connection.on("disconnected", () => {
   console.log("mongoDB disconnected");

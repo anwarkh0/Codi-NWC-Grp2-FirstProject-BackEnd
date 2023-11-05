@@ -22,8 +22,8 @@ const displayRooms = async (req, res) => {
 
     }
 
-    res.status(200).json({ dataRooms: rooms });
-  } catch (error) {
+    // res.status(200).json({ dataRooms: rooms });
+  catch (error) {
     res.status(500).json({ error: error });
   }
 };
@@ -84,13 +84,13 @@ const addRoom = async (req, res) => {
         res.status(200).json({ message: "room added succefully", data: savedRoom })
     } catch (error) {
       res.status(500).json({ error: error });
-    }
+      }};
 
-    res.status(200).json({ message: "room added succefully", data: savedRoom });
-  } catch (error) {
-    res.status(500).json({ error: error });
-  }
-};
+//     res.status(200).json({ message: "room added succefully", data: savedRoom });
+//   } catch (error) {
+//     res.status(500).json({ error: error });
+//   }
+// };
 
 
 

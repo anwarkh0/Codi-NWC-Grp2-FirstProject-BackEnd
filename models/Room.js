@@ -19,7 +19,7 @@ const RoomSchema = Schema({
     type: Number,
     required: true,
   },
-  maxpeople: {
+
   maxpeople: {
     type: Number,
     required: true
@@ -30,7 +30,7 @@ const RoomSchema = Schema({
     type: Boolean,
     default:false,
     required: true
-  }
+  },
 });
 
 const Room = new mongoose.model("Room", RoomSchema);
