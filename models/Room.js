@@ -9,12 +9,17 @@ const RoomSchema = Schema({
   },
   type: {
     type: String,
-    required: true
+    required:true
+  },
+  type:{
+    type:String,
+    required:true
   },
   price: {
     type: Number,
-    required: true
+    required: true,
   },
+  maxpeople: {
   maxpeople: {
     type: Number,
     required: true
