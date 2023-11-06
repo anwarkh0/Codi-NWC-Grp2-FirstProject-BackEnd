@@ -23,15 +23,7 @@ app.use(express.json());
 app.use("/room", roomRoute);
 app.use("/user", userRoute);
 app.use("/hotel", hotelRoute);
-app.use("booking", bookingRoute);
-// const connect = async () => {
-//   try {
-//     await mongoose.connect(process.env.MONGO);
-//     console.log("Connected to mongoDB");
-//   } catch (error) {
-//     throw error;
-//   }
-// };
+app.use("/booking", bookingRoute);
 
 mongoose.connection.on("disconnected", () => {
   console.log("mongoDB disconnected");
