@@ -14,7 +14,7 @@ const router = express.Router();
 router.post("/", uploadImage.single("image"), verifyAdmin, createHotel);
 router.put("/:id", verifyAdmin, updateHotel);
 router.delete("/:id", verifyAdmin, deleteHotel);
+router.get("/", getHotels);
 router.get("/:id", getHotel);
-router.post("/", getHotels);
 
 export default router;
