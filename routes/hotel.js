@@ -7,13 +7,13 @@ import {
   getHotel,
   getHotels,
 } from "../controllers/hotel.js";
-import { verifyAdmin } from "../middleware/verifyToken.js";
+// import { verifyAdmin } from "../middleware/verifyToken.js";
 
 const router = express.Router();
 
-router.post("/", uploadImage.single("image"), verifyAdmin, createHotel);
-router.put("/:id", verifyAdmin, updateHotel);
-router.delete("/:id", verifyAdmin, deleteHotel);
+router.post("/", uploadImage.single("image"),  createHotel);
+router.put("/:id", uploadImage.single("image"), updateHotel);
+router.delete("/:id",  deleteHotel);
 router.get("/", getHotels);
 router.get("/:id", getHotel);
 

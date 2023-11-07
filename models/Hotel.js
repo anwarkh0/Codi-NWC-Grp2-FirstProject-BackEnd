@@ -19,8 +19,8 @@ const HotelSchema = new mongoose.Schema({
     min: 0,
     max: 5,
   },
-  images: {
-    type: [String]
+  image: {
+    type: String
   },
   rules: { Icons: { type: [String] }, Desc: { type: [String] } },
   roomNumber: {
@@ -37,8 +37,8 @@ export default mongoose.model("Hotel", HotelSchema);
 // {
 //   "name":"Lancaster",
 //   "city":"Beirut",
-//   "address":"raoucheh",
-//   "rate":4,
+//   "address":"Raoucheh",
+//   "rate":4.1,
 //   "images":["imaag1","imag2"],
 //   "rules":{"Icons":["ima1","im2"],"Desc":["desc1","desc2"]},
 //   "roomNumber":2
