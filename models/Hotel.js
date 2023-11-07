@@ -20,16 +20,13 @@ const HotelSchema = new mongoose.Schema({
     max: 5,
   },
   image: {
-    type: String
+    type: String,
   },
   rules: { Icons: { type: [String] }, Desc: { type: [String] } },
   roomNumber: {
     type: Number,
   },
-  rooms:
-    [{type:mongoose.Schema.Types.ObjectId,ref:'Room'}]
-  
-
+  rooms: [{ type: mongoose.Schema.Types.ObjectId, ref: "Room" }],
 });
 
 export default mongoose.model("Hotel", HotelSchema);

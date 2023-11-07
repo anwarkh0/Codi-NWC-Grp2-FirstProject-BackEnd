@@ -15,7 +15,7 @@ dotenv.config();
 
 const port = process.env.PORT || 8000;
 const staticDirectory = "./images";
-app.use(express.static(staticDirectory));
+app.use("/images", express.static(staticDirectory));
 
 //middlewares
 app.use(cookieParser());

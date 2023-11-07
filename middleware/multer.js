@@ -4,7 +4,7 @@ let dirname = path.resolve(path.dirname(""));
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     console.log("reached here");
-    cb(null, path.join(dirname, "/images"));
+    cb(null, "images");
   },
   filename: (req, file, cb) => {
     console.log(file);
