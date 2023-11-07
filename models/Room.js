@@ -5,14 +5,10 @@ const RoomSchema = Schema({
     required: true
   },
   images: {
-    type: [String],
+    type: String,
   },
   type: {
     type: String,
-    required:true
-  },
-  type:{
-    type:String,
     required:true
   },
   price: {
