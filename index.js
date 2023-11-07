@@ -1,5 +1,5 @@
 import express from "express";
-import mongoose from 'mongoose'
+import mongoose from "mongoose";
 const app = express();
 import dotenv from "dotenv";
 import roomRoute from "./routes/room.js";
@@ -15,6 +15,7 @@ dotenv.config();
 
 const port = process.env.PORT || 8000;
 const staticDirectory = "./images";
+app.use(express.static(staticDirectory));
 
 //middlewares
 app.use(cookieParser());
@@ -36,6 +37,3 @@ app.listen(port, () => {
   connect();
   console.log(`server is listening on port ${port}`);
 });
-
-
-
