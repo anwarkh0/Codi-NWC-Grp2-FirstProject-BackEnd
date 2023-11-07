@@ -4,7 +4,7 @@ const RoomSchema = Schema({
     type: Number,
     required: true
   },
-  images: {
+  image: {
     type: String,
   },
   type: {
