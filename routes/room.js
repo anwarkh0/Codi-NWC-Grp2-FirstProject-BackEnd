@@ -14,7 +14,7 @@ import express from "express";
 const router = express.Router();
 
 //add Room(dashboard)
-router.post("/:hotelId", uploadImage.single("image"), verifyAdmin, addRoom); //with auth
+router.post("/:hotelId", uploadImage.single("image"), addRoom); //with auth
 
 //get all rooms available
 router.get("/:sorting?", displayRooms);
