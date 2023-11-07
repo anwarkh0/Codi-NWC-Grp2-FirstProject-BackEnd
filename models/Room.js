@@ -2,14 +2,13 @@ import mongoose, { Schema } from "mongoose";
 const RoomSchema = Schema({
   number: {
     type: Number,
-    required: true
+    required: true,
   },
   image: {
     type: String,
   },
   type: {
     type: String,
-    required:true
   },
   price: {
     type: Number,
@@ -18,21 +17,19 @@ const RoomSchema = Schema({
 
   maxpeople: {
     type: Number,
-    required: true
+    required: true,
   },
-  rules:{Icons:{type:[String]},Desc:{type:[String]}}
-,
+  rules: { Icons: { type: [String] }, Desc: { type: [String] } },
   isBooked: {
     type: Boolean,
-    default:false,
-    required: true
+    default: false,
+    required: true,
   },
 });
 
 const Room = new mongoose.model("Room", RoomSchema);
 
 export default Room;
-
 
 // {
 //   "number":200,
