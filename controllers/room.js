@@ -70,6 +70,8 @@ const editRoom = async (req, res) => {
 //add room and add id to the hotel
 const addRoom = async (req, res) => {
   let hotelId = req.params.hotelId;
+  req.body.image = req.file.path;
+
   // const { name, price, people, services, rules, dates } = req.body;
   let newRoom = new Room(req.body);
   try {
