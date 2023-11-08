@@ -32,7 +32,7 @@ router.get("/checkadmin/:id", verifyAdmin, (req, res, next) => {
 router.get("/:id", verifyUser, getUser);
 
 //get all users
-router.get("/", verifyAdmin, getUsers);
+router.get("/", getUsers);
 
 //delete user
 router.delete("/:id", verifyUser, deleteUser);
