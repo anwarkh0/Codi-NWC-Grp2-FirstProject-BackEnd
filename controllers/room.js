@@ -5,28 +5,29 @@ import Hotel from "../models/Hotel.js";
 const displayRooms = async (req, res) => {
   let rooms = [];
 
+  //get rooms after add the specific hotel inside the
     try {
         if (req.params.sorting === undefined) {
-            rooms = await Room.find();
+            rooms = await Room.find().populate({ path: "Hotel", model: "Hotel" });
         }
         else if (req.params.sorting === 'Low-price') {
-            rooms = await Room.find().sort({ price: 1 });
-            1
+            rooms = await Room.find().populate({ path: "Hotel", model: "Hotel" }).sort({ price: 1 });
+            
         }
         else if (req.params.sorting === 'High-price') {
-            rooms = await Room.find().sort({ price: -1 });
+            rooms = await Room.find().populate({ path: "Hotel", model: "Hotel" }).sort({ price: -1 });
 
         }
 
         res.status(200).json({ 'dataRooms': rooms })
 
     }
-
-    // res.status(200).json({ dataRooms: rooms });
   catch (error) {
     res.status(500).json({ error: error });
   }
 };
+
+
 
 //get room from data base according to the id
 const selectRoom = async (req, res) => {
@@ -71,8 +72,7 @@ const editRoom = async (req, res) => {
 const addRoom = async (req, res) => {
   let hotelId = req.params.hotelId;
   req.body.image = req.file.path;
-
-  // const { name, price, people, services, rules, dates } = req.body;
+  req.body.Hotel=hotelId;
   let newRoom = new Room(req.body);
   try {
     let savedRoom = await newRoom.save();
@@ -87,13 +87,6 @@ const addRoom = async (req, res) => {
     } catch (error) {
       res.status(500).json({ error: error });
       }};
-
-//     res.status(200).json({ message: "room added succefully", data: savedRoom });
-//   } catch (error) {
-//     res.status(500).json({ error: error });
-//   }
-// };
-
 
 
 const displayRoomsByHotel = async (req, res) => {

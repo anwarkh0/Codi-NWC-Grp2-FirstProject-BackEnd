@@ -25,6 +25,10 @@ const RoomSchema = Schema({
     default: false,
     required: true,
   },
+  Hotel:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:'Hotel'
+  }
 });
 
 const Room = new mongoose.model("Room", RoomSchema);
