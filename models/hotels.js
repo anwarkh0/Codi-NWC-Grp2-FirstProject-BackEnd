@@ -23,6 +23,11 @@ export default (sequelize, DataTypes) => {
         onUpdate: 'CASCADE',
         onDelete: "CASCADE"
       })
+      Hotels.hasMany(models.HotelImagesModel,{
+        foreignKey: 'hotelId',
+        onUpdate: 'CASCADE',
+        onDelete: "CASCADE"
+      })
     }
   }
   Hotels.init({

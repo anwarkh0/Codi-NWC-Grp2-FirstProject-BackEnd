@@ -14,11 +14,15 @@ export default (sequelize, DataTypes) => {
         onUpdate: 'CASCADE',
         onDelete: "CASCADE"
       })
+      Rooms.hasMany(models.RoomImages, {
+        foreignKey: 'roomId',
+        onUpdate: 'CASCADE',
+        onDelete: "CASCADE"
+      })
     }
   }
   Rooms.init({
     number: DataTypes.NUMBER,
-    // image: DataTypes.ARRAY,
     quality: DataTypes.ENUM('High' , 'Medium' , 'Low'),
     guestNumber: DataTypes.NUMBER,
     isBooked: DataTypes.BOOLEAN,

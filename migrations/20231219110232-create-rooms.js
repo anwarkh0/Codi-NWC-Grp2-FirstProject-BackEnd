@@ -24,7 +24,8 @@ module.exports = {
       },
       isBooked: {
         type: Sequelize.BOOLEAN,
-        defaultValue: false
+        defaultValue: false,
+        allowNull: false
       },
       price: {
         type: Sequelize.INTEGER ,

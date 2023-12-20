@@ -6,6 +6,8 @@ import Reservation from './reservation.js'
 import Rooms from './rooms.js'
 import Rules from './rules.js'
 import Users from './users.js'
+import HotelImages from './hotelimages.js'
+import RoomImages from './roomimages.js'
 dotenv.config();
 
 const sequelize = new Sequelize(
@@ -24,6 +26,8 @@ const RatingModel = Rating(sequelize, Sequelize);
 const ReservationModel = Reservation(sequelize, Sequelize);
 const RoomsModel = Rooms(sequelize, Sequelize);
 const RulesModel = Rules(sequelize, Sequelize);
+const HotelImagesModel = HotelImages(sequelize, Sequelize)
+const RoomImagesModel = RoomImages(sequelize , Sequelize)
 
 const db = {
   sequelize,
@@ -34,6 +38,8 @@ const db = {
   RoomsModel,
   RulesModel,
   ReservationModel,
+  HotelImagesModel,
+  RoomImagesModel
 };
 
 Object.keys(db).forEach((modelName) => {
