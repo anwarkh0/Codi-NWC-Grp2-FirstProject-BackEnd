@@ -29,7 +29,7 @@ export default (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     city: DataTypes.STRING,
     address: DataTypes.STRING,
-    image: DataTypes.ARRAY(DataTypes.STRING),
+    // image: DataTypes.ARRAY(DataTypes.STRING),
   }, {
     sequelize,
     modelName: 'Hotels',

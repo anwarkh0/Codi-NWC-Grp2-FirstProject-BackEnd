@@ -13,28 +13,27 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false
       },
-      image: {
-        type: Sequelize.ARRAY(Sequelize.STRING),
-        allowNull: false
-      },
       quality: {
-        type: Sequelize.ENUM('High', 'Medium', 'Low'),
+        type: Sequelize.ENUM("High","Medium", "Low"),
+        defaultValue: "Medium",
+        allowNull: false,
       },
       guestNumber: {
         type: Sequelize.INTEGER,
+        allowNull: false
       },
       isBooked: {
         type: Sequelize.BOOLEAN,
         defaultValue: false
       },
       price: {
-        type: Sequelize.NUMBER ,
+        type: Sequelize.INTEGER ,
         allowNull: false ,
       },
-      date : {
-        type : Sequelize.ARRAY(Sequelize.DATE) ,
-        allowNull: false
-      },
+      // date : {
+      //   type : Sequelize.ARRAY(Sequelize.DATE) ,
+      //   allowNull: false
+      // },
       createdAt: {
         type: Sequelize.DATE
       },

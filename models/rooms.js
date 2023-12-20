@@ -18,11 +18,12 @@ export default (sequelize, DataTypes) => {
   }
   Rooms.init({
     number: DataTypes.NUMBER,
-    image: DataTypes.STRING,
+    // image: DataTypes.ARRAY,
     quality: DataTypes.ENUM('High' , 'Medium' , 'Low'),
     guestNumber: DataTypes.NUMBER,
     isBooked: DataTypes.BOOLEAN,
-    hotelId: DataTypes.NUMBER
+    hotelId: DataTypes.NUMBER,
+    price: DataTypes.NUMBER
   }, {
     sequelize,
     modelName: 'Rooms',

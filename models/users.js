@@ -20,7 +20,7 @@ export default (sequelize, DataTypes) => {
     lastName: DataTypes.STRING,
     email: DataTypes.STRING,
     password: DataTypes.STRING,
-    role: DataTypes.ENUM,
+    role: DataTypes.ENUM("customer","admin"),
     image: DataTypes.STRING
   }, {
     sequelize,
