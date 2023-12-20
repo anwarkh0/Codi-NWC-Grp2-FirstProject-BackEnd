@@ -9,6 +9,7 @@ export default (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Rating.belongsTo(models.HotelsModel);
+      Rating.belongsTo(models.UsersModel)
     }
   }
   Rating.init({

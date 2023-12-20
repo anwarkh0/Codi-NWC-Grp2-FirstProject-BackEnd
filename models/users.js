@@ -13,6 +13,12 @@ export default (sequelize, DataTypes) => {
         onUpdate: 'CASCADE',
         onDelete: "CASCADE"
       })
+
+      Users.hasMany(models.RatingModel, {
+        foreignKey: 'userId',
+        onUpdate: 'CASCADE',
+        onDelete: "CASCADE"
+      })
     }
   }
   Users.init({

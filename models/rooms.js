@@ -14,7 +14,7 @@ export default (sequelize, DataTypes) => {
         onUpdate: 'CASCADE',
         onDelete: "CASCADE"
       })
-      Rooms.hasMany(models.RoomImages, {
+      Rooms.hasMany(models.RoomImagesModel, {
         foreignKey: 'roomId',
         onUpdate: 'CASCADE',
         onDelete: "CASCADE"
