@@ -1,10 +1,10 @@
 import express from "express";
 import sequelize from "./config/dbConnection.js";
 import dotenv from "dotenv";
-import roomRoute from "./routes/room.js";
-import userRoute from "./routes/user.js";
-import hotelRoute from "./routes/hotel.js";
-import bookingRoute from "./routes/booking.js";
+// import roomRoute from "./routes/room.js";
+// import userRoute from "./routes/user.js";
+// import hotelRoute from "./routes/hotel.js";
+// import bookingRoute from "./routes/booking.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 
@@ -24,10 +24,10 @@ const corsOptions = {
 };
 app.use(cors(corsOptions))
 app.use(express.json());
-app.use("/room", roomRoute);
-app.use("/user", userRoute);
-app.use("/hotel", hotelRoute);
-app.use("/booking", bookingRoute);
+// app.use("/room", roomRoute);
+// app.use("/user", userRoute);
+// app.use("/hotel", hotelRoute);
+// app.use("/booking", bookingRoute);
 
 sequelize
   .sync()

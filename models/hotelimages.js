@@ -8,6 +8,7 @@ export default (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      HotelImages.belongsTo(models.HotelsModel)
     }
   }
   HotelImages.init({

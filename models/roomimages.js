@@ -8,6 +8,7 @@ export default (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      RoomImages.belongsTo(models.RoomsModel)
     }
   }
   RoomImages.init({
