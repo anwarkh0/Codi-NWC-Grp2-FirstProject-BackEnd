@@ -31,10 +31,11 @@ module.exports = {
         type: Sequelize.INTEGER ,
         allowNull: false ,
       },
-      // date : {
-      //   type : Sequelize.ARRAY(Sequelize.DATE) ,
-      //   allowNull: false
-      // },
+      description : {
+        type: Sequelize.STRING , 
+        allowNull : false
+      }
+      ,
       createdAt: {
         type: Sequelize.DATE
       },

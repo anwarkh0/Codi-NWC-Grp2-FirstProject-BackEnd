@@ -27,7 +27,8 @@ export default (sequelize, DataTypes) => {
     guestNumber: DataTypes.NUMBER,
     isBooked: DataTypes.BOOLEAN,
     hotelId: DataTypes.NUMBER,
-    price: DataTypes.NUMBER
+    price: DataTypes.NUMBER,
+    description : DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'Rooms',
