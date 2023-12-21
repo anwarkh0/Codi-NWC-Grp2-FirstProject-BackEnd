@@ -64,7 +64,7 @@ module.exports = {
 
     await queryInterface.changeColumn('RoomImages', 'roomId',{
       type: Sequelize.INTEGER,
-      references: {
+      references: { 
         model: 'Rooms',
         key: 'id'
       },

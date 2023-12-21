@@ -1,5 +1,3 @@
-import uploadImage from "../middleware/multer.js";
-// import { verifyAdmin } from "../middleware/verifyToken.js";
 
 import {
   displayRooms,
