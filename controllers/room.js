@@ -1,115 +1,109 @@
+import db from "../models/index.js";
 
+const { RoomsModel, HotelsModel } = db;
+//get all the rooms saved in rooms model
+const displayRooms = async (req, res) => {
+  try {
+    let rooms = await RoomsModel.findAll();
 
-// //get all the rooms saved in rooms model
-// const displayRooms = async (req, res) => {
-//   let rooms = [];
+    res.status(200).json({ data: rooms });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
-//   //get rooms after add the specific hotel inside the
-//     try {
-//         if (req.params.sorting === undefined) {
-//             rooms = await Room.find().populate({ path: "Hotel", model: "Hotel" });
-//         }
-//         else if (req.params.sorting === 'Low-price') {
-//             rooms = await Room.find().populate({ path: "Hotel", model: "Hotel" }).sort({ price: 1 });
-            
-//         }
-//         else if (req.params.sorting === 'High-price') {
-//             rooms = await Room.find().populate({ path: "Hotel", model: "Hotel" }).sort({ price: -1 });
+//get room from data base according to the id
+const selectRoom = async (req, res) => {
+  let { id } = req.body;
+  try {
+    const room = await RoomsModel.findByPk(id);
+    if (!room) {
+      return res.status(401).json({ message: "room not found" });
+    }
+    res.status(200).json({ data: room });
+  } catch (error) {
+    res.status(500).json({ error: error });
+  }
+};
 
-//         }
+//delete it from data base room and remove id from hotel
+const deleteRoom = async (req, res) => {
+  let { id } = req.body;
 
-//         res.status(200).json({ 'dataRooms': rooms })
+  try {
+    const room = await RoomsModel.findByPk(id);
+    if (!room) {
+      return res.status(401).json({ error: "Room not found" });
+    }
+    await room.destroy(); // Delete the room
+    res.status(200).json({ message: "Room deleted" });
+  } catch (error) {
+    res.status(404).json({ error: error });
+  }
+};
 
-//     }
-//   catch (error) {
-//     res.status(500).json({ error: error });
-//   }
-// };
+//find from data base then apdate
+const editRoom = async (req, res) => {
+  const { id, ...updatedData } = req.body;
+  try {
+    const room = await RoomsModel.findByPk(id);
+    if (!room) {
+      return res.status(404).json({ error: "Room not found" });
+    }
+    const updatedRoom = await room.update(updatedData);
+    res.status(200).json({ data: updatedRoom });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
+//add room and add id to the hotel
+const addRoom = async (req, res) => {
+  const {
+    number,
+    price,
+    guestNumber,
+    hotelId,
+    isBooked,
+    quality,
+    description,
+  } = req.body;
+  try {
+    const newRoom = await RoomsModel.create({
+      number,
+      price,
+      guestNumber,
+      hotelId,
+      isBooked,
+      quality,
+      description,
+    });
+    res.status(200).json({ message: "Room added successfully", data: newRoom });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
+const displayRoomsByHotel = async (req, res) => {
+  try {
+    const hotelId = req.body.id;
+    const rooms = await RoomsModel.findAll({
+      where: { hotelId: hotelId },
+    });
+    if (!rooms || rooms.length === 0) {
+      return res.status(404).json({ message: "No rooms found for this hotel" });
+    }
+    res.status(200).json({ data: rooms });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
-// //get room from data base according to the id
-// const selectRoom = async (req, res) => {
-//   try {
-//     const room = await Room.find({ id: req.params.id });
-//     res.status(200).json({ data: room });
-//   } catch (error) {
-//     res.status(500).json({ error: error });
-//   }
-// };
-
-// //delete it from data base room and remove id from hotel
-// const deleteRoom = async (req, res) => {
-//   let roomId = req.params.roomId;
-//   let hotelId = req.params.hotelId;
-
-//   try {
-//     await Room.findByIdAndDelete(roomId);
-//     try {
-//       await Hotel.findByIdAndUpdate(hotelId, { $pull: { rooms: roomId } });
-//     } catch (error) {
-//       res.status(500).json({ error });
-//     }
-//     res.status(200).json({ message: "Room deleted" });
-//   } catch (error) {
-//     res.status(404).json({ error: error });
-//   }
-// };
-
-// //find from data base then apdate
-// const editRoom = async (req, res) => {
-//     try {
-//         const editedRoom = await Room.findByIdAndUpdate(req.params.id, req.body, { new: true })
-//         res.status(200).json({ data: editedRoom })
-
-//     } catch (error) { res.status(500).json({ "error": error }) }
-// }
-
-
-
-// //add room and add id to the hotel
-// const addRoom = async (req, res) => {
-//   let hotelId = req.params.hotelId;
-//   req.body.image = req.file.path;
-//   req.body.Hotel=hotelId;
-//   let newRoom = new Room(req.body);
-//   try {
-//     let savedRoom = await newRoom.save();
-
-//         try {
-//             await Hotel.findByIdAndUpdate(hotelId, { $push: { rooms: savedRoom._id }, })
-//         } catch (error) {
-//             res.status(500).json({ error: error })
-//         }
-
-//         res.status(200).json({ message: "room added succefully", data: savedRoom })
-//     } catch (error) {
-//       res.status(500).json({ error: error });
-//       }};
-
-
-// const displayRoomsByHotel = async (req, res) => {
-//     try {
-//         let hotel = await Hotel.findById(req.params.hotelId);
-
-//         if (hotel && hotel.rooms != []) {
-//             let data = await hotel.populate({ path: "rooms", model: "Room" });
-
-//             res.status(200).json({ data: data })
-//         }
-//         else {
-//             res.status(404).json({ message: "No rooms are available" })
-//         }
-//     }
-//     catch (error) { res.status(500).json({ error: error }) }
-
-// }
-
-// export {
-//   displayRooms,
-//   selectRoom,
-//   deleteRoom,
-//   editRoom,
-//   addRoom,
-//   displayRoomsByHotel,
-// };
+export {
+  displayRooms,
+  selectRoom,
+  deleteRoom,
+  editRoom,
+  addRoom,
+  displayRoomsByHotel,
+};

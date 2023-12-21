@@ -1,34 +1,34 @@
-// import uploadImage from "../middleware/multer.js";
+import uploadImage from "../middleware/multer.js";
 // import { verifyAdmin } from "../middleware/verifyToken.js";
 
-// import {
-//   displayRooms,
-//   selectRoom,
-//   deleteRoom,
-//   editRoom,
-//   addRoom,
-//   displayRoomsByHotel,
-// } from "../controllers/room.js";
+import {
+  displayRooms,
+  selectRoom,
+  deleteRoom,
+  editRoom,
+  addRoom,
+  displayRoomsByHotel,
+} from "../controllers/room.js";
 
-// import express from "express";
-// const router = express.Router();
+import express from "express";
+const roomRoute = express.Router();
+//uploadImage.single("image"),
+//add Room(dashboard)
+roomRoute.post("/",  addRoom); //with auth
 
-// //add Room(dashboard)
-// router.post("/:hotelId", uploadImage.single("image"), addRoom); //with auth
+//get all rooms available
+roomRoute.get("/", displayRooms);
 
-// //get all rooms available
-// router.get("/:sorting?", displayRooms);
+//get room by id (for dashboard and room services)
+roomRoute.post("/singleRoom", selectRoom);
 
-// //get room by id (for dashboard and room services)
-// router.get("/:id", selectRoom);
+//Remove Room(dashboard)
+roomRoute.delete("/", deleteRoom); //with auth
 
-// //Remove Room(dashboard)
-// router.delete("/:roomId/:hotelId", deleteRoom); //with auth
+//edit Room(dashboard)
+roomRoute.patch("/", editRoom); //with auth
 
-// //edit Room(dashboard)
-// router.put("/:id", editRoom); //with auth
+// get rooms for a specific hotel
+roomRoute.post("/byHotel", displayRoomsByHotel);
 
-// // get rooms for a specific hotel
-// router.get("/byHotel/:hotelId", displayRoomsByHotel);
-
-// export default router;
+export default roomRoute;
