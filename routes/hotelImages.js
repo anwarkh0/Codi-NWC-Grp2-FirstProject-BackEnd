@@ -6,17 +6,17 @@ import {
 import express from "express";
 const hotelImageRoute = express.Router();
 //add Room(dashboard)
-roomImageRoute.post("/add",uploadImage.array('images', 4),  addImage); 
+hotelImageRoute.post("/add",uploadImage.array('images', 4),  addImage); 
 
 //get all rooms available
-roomImageRoute.post("/get", getImage);
+hotelImageRoute.post("/get", getImage);
 
-roomImageRoute.post("/getByhotel", displayImagesByRoom);
+hotelImageRoute.post("/getByhotel", displayImagesByRoom);
 
 //Remove Room(dashboard)
-roomImageRoute.delete("/", deleteImage);
+hotelImageRoute.delete("/", deleteImage);
 
 //edit Room(dashboard)
-roomImageRoute.patch("/",uploadImage.single("image"), editImage); 
+hotelImageRoute.patch("/",uploadImage.single("image"), editImage); 
 
 export default hotelImageRoute;
