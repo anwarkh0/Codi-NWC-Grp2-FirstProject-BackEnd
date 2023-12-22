@@ -1,12 +1,12 @@
 import db from "../models/index.js";
 import fs from "fs";
-const { RoomImagesModel } = db;
+const { HotelImagesModel } = db;
 
 //get room from data base according to the id
 const getImage = async (req, res) => {
   let { id } = req.body;
   try {
-    const image = await RoomImagesModel.findByPk(id);
+    const image = await HotelImagesModel.findByPk(id);
     if (!image) {
       return res.status(401).json({ message: "image not found" });
     }
@@ -16,11 +16,11 @@ const getImage = async (req, res) => {
   }
 };
 
-const displayImagesByRoom = async (req, res) => {
+const displayImagesByHotel = async (req, res) => {
     try {
-      const {roomId} = req.body;
-      const images = await RoomImagesModel.findAll({
-        where: { roomId: roomId },
+      const {hotelId} = req.body;
+      const images = await HotelImagesModel.findAll({
+        where: { hotelId: hotelId },
       });
       if (!images || images.length === 0) {
         return res.status(404).json({ message: "No images found for this room" });
@@ -35,7 +35,7 @@ const displayImagesByRoom = async (req, res) => {
 const deleteImage = async (req, res) => {
     let { id } = req.body;
     try {
-      const image = await RoomImagesModel.findByPk(id);
+      const image = await HotelImagesModel.findByPk(id);
       if (!image) {
         return res.status(404).json({ error: "Image not found" });
       }
@@ -58,7 +58,7 @@ const editImage = async (req, res) => {
   const { id } = req.body;
   const imageURL = req.files;
   try {
-    const image = await RoomImagesModel.findByPk(id);
+    const image = await HotelImagesModel.findByPk(id);
     if (!image) {
       return res.status(404).json({ error: "image not found" });
     }
@@ -77,7 +77,7 @@ const editImage = async (req, res) => {
 
 const addImage = async (req, res) => {
     const uploadedImages = req.files;
-    const { roomId } = req.body;
+    const { hotelId } = req.body;
   
     try {
       if (!uploadedImages || uploadedImages.length === 0) {
@@ -85,13 +85,13 @@ const addImage = async (req, res) => {
       }
   
       for (const image of uploadedImages) {
-        const existingImage = await RoomImagesModel.findOne({
-          where: { imageURL: image.path, roomId },
+        const existingImage = await HotelImagesModel.findOne({
+          where: { imageURL: image.path, hotelId },
         });
   
         if (!existingImage) {
-          const newImage = await RoomImagesModel.create({
-            roomId,
+          const newImage = await HotelImagesModel.create({
+            hotelId,
             imageURL: image.path,
           });
         }
@@ -104,4 +104,4 @@ const addImage = async (req, res) => {
   };
   
 
-export { getImage, deleteImage, editImage, addImage,displayImagesByRoom };
+export { getImage, deleteImage, editImage, addImage,displayImagesByHotel };
