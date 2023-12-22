@@ -5,13 +5,15 @@ import dotenv from "dotenv";
 // import userRoute from "./routes/user.js";
 // import hotelRoute from "./routes/hotel.js";
 // import bookingRoute from "./routes/booking.js";
+import ratingRoute from "./routes/rating.js"
+import userRoute from "./routes/user.js"
 import cors from "cors";
 import cookieParser from "cookie-parser";
 
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT ;
+const port = process.env.PORT;
 const staticDirectory = "./images";
 app.use("/images", express.static(staticDirectory));
 
@@ -20,7 +22,7 @@ app.use(cookieParser());
 const corsOptions = {
   origin: "http://localhost:3000",
   credentials: true,
-  optionsSuccessStatus: 200, 
+  optionsSuccessStatus: 200,
 };
 app.use(cors(corsOptions))
 app.use(express.json());
@@ -28,6 +30,8 @@ app.use(express.json());
 // app.use("/user", userRoute);
 // app.use("/hotel", hotelRoute);
 // app.use("/booking", bookingRoute);
+app.use('/rating', ratingRoute)
+app.use('/user', userRoute)
 
 sequelize
   .sync()
