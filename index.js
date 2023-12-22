@@ -1,10 +1,6 @@
 import express from "express";
 import sequelize from "./config/dbConnection.js";
 import dotenv from "dotenv";
-// import roomRoute from "./routes/room.js";
-// import userRoute from "./routes/user.js";
-// import hotelRoute from "./routes/hotel.js";
-// import bookingRoute from "./routes/booking.js";
 import ratingRoute from "./routes/rating.js"
 import userRoute from "./routes/user.js"
 import cors from "cors";
