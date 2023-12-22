@@ -44,6 +44,7 @@ module.exports = {
     
     await queryInterface.addColumn('Reservations', 'roomId',{
       type: Sequelize.INTEGER,
+      allowNull: false ,
       references: {
         model: 'Rooms',
         key: 'id'
@@ -54,6 +55,7 @@ module.exports = {
 
     await queryInterface.addColumn('Reservations', 'userId',{
       type: Sequelize.INTEGER,
+      allowNull: false ,
       references: {
         model: 'Users',
         key: 'id'
@@ -64,6 +66,7 @@ module.exports = {
 
     await queryInterface.changeColumn('RoomImages', 'roomId',{
       type: Sequelize.INTEGER,
+      allowNull: false ,
       references: {
         model: 'Rooms',
         key: 'id'
@@ -74,8 +77,9 @@ module.exports = {
 
     await queryInterface.changeColumn('HotelImages', 'hotelId',{
       type: Sequelize.INTEGER,
+      allowNull: false ,
       references: {
-        model: 'Rooms',
+        model: 'Hotels',
         key: 'id'
       },
       onDelete: 'CASCADE',

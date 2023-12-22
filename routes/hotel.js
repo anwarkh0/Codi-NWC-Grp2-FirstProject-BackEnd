@@ -1,20 +1,19 @@
-// import express from "express";
-// import uploadImage from "../middleware/multer.js";
-// import {
-//   createHotel,
-//   updateHotel,
-//   deleteHotel,
-//   getHotel,
-//   getHotels,
-// } from "../controllers/hotel.js";
+import express from "express";
+import {
+  getAllHotels,
+  createHotel,
+  getHotelById,
+  updateHotel,
+  deleteHotel,
+} from "../controllers/hotel.js";
 // // import { verifyAdmin } from "../middleware/verifyToken.js";
 
-// const router = express.Router();
+const hotelRouter = express.Router();
 
-// router.post("/", uploadImage.single("image"),  createHotel);
-// router.put("/:id", uploadImage.single("image"), updateHotel);
-// router.delete("/:id",  deleteHotel);
-// router.get("/", getHotels);
-// router.get("/:id", getHotel);
+hotelRouter.post("/", createHotel);
+hotelRouter.patch("/", updateHotel);
+hotelRouter.delete("/", deleteHotel);
+hotelRouter.get("/", getAllHotels);
+hotelRouter.post("/id", getHotelById);
 
-// export default router;
+export default hotelRouter;
