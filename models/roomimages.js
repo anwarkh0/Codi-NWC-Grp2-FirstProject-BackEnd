@@ -14,7 +14,6 @@ export default (sequelize, DataTypes) => {
   RoomImages.init({
     imageURL: DataTypes.STRING,
     roomId: DataTypes.INTEGER,
-    title:DataTypes.STRING
   }, {
     sequelize,
     modelName: 'RoomImages',

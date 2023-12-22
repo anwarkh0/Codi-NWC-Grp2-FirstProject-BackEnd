@@ -32,6 +32,7 @@ export default (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Rooms',
+    timestamps: true,
   });
   return Rooms;
 };
