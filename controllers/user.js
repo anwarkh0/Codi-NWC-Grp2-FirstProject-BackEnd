@@ -1,86 +1,82 @@
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-import db from "../models/index.js";
+import db from "../models/index.js"
 
-const { UsersModel } = db
-// export const register = async (req, res, next) => {
-//   try {
-//     const salt = bcrypt.genSaltSync(10);
-//     const hash = bcrypt.hashSync(req.body.password, salt);
+/////////
+export const createUser = async (req, res) => {
+  const { firstName, lastName, email, password, role } = req.body
+  const image = req.file.filename
+  try {
+    const newUser = await db.UsersModel.create({
+      firstName,
+      lastName,
+      email,
+      password,
+      role,
+      image
+    })
+    return res
+      .status(200)
+      .json({ mess: "User created successfully", rating: newUser })
+  }
+  catch (err) {
+    console.log(err)
+    res.state(404).json({ error: "User coudn't be create" })
+  }
+}
+///////////
+export const getOneUser = async (req, res) => {
+  const { id } = req.params
+  try {
+    const user = await db.UsersModel.findOne({ where: { id } })
+    res.status(200).json(user)
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({ error: "cannot fetch user" });
 
-//     const newUser = new User({
-//       username: req.body.username,
-//       email: req.body.email,
-//       password: hash,
-//       phone: req.body.phone,
-//       img: req.file.path,
-//     });
-//     await newUser.save();
-//     res.status(200).send("User has been created");
-//   } catch (err) {
-//     next(err);
-//   }
-// };
+  }
+}
+//////////
+export const getAllUsers = async (req, res) => {
+  try {
+    const allUsers = await db.UsersModel.findAll()
+    res.status(200).json(allUsers)
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({ error: "cannot fetch Users" });
 
-// export const login = async (req, res, next) => {
-//   try {
-//     const user = await User.findOne({ username: req.body.username });
-//     if (!user) return res.send("User not found !");
-//     const isPasswordCorrect = await bcrypt.compare(
-//       req.body.password,
-//       user.password
-//     );
-//     if (!isPasswordCorrect)
-//       return res.send("username or password incorrect ! ");
+  }
+}
 
-//     const token = jwt.sign(
-//       { id: user._id, isAdmin: user.isAdmin },
-//       process.env.JWT
-//     );
-//     const { password, isAdmin, ...otherDetails } = user._doc;
-//     res
-//       .cookie("access_token", token, { httpOnlt: true })
-//       .status(200)
-//       .json({ ...otherDetails });
-//   } catch (err) {
-//     next(err);
-//   }
-// };
+export const updateUser = async (req, res) => {
+  const { id } = req.params
+  const image = req.file.filename;
+  const { firstName, lastName, email, password, role } = req.body
+  try {
+    const user = await db.UsersModel.update(
+      {
+        firstName,
+        lastName,
+        email,
+        password,
+        role,
+        image,
+      },
+      {
+        where: { id }
+      })
+  } catch (err) {
+    console.log(err)
+  }
+}
 
-// export const updateUser = async (req, res, next) => {
-//   try {
-//     const updatedUser = await User.findByIdAndUpdate(
-//       req.params.id,
-//       { $set: req.body },
-//       { new: true }
-//     );
-//     res.status(200).json(updatedUser);
-//   } catch (err) {
-//     next(err);
-//   }
-// };
-// export const deleteUser = async (req, res, next) => {
-//   try {
-//     await User.findByIdAndDelete(req.params.id);
-//     res.status(200).json("User has been deleted.");
-//   } catch (err) {
-//     next(err);
-//   }
-// };
-// export const getUser = async (req, res, next) => {
-//   try {
-//     const user = await User.findById(req.params.id);
-//     res.status(200).json(user);
-//   } catch (err) {
-//     next(err);
-//   }
-// };
-// export const getUsers = async (req, res, next) => {
-//   try {
-//     console.log("users");
-//     const users = await User.find();
-//     res.status(200).json(users);
-//   } catch (err) {
-//     next(err);
-//   }
-// };
+export const deleteUser = async (req, res) => {
+  const { id } = req.params
+  try {
+    await db.UsersModel.destroy({ where: { id } })
+    res.status(200).json({ message: "User deleted successfully" });
+
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({ error: " could not delete User" });
+
+  }
+}
