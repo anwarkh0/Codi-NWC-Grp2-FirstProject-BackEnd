@@ -3,4 +3,6 @@ import express from 'express'
 
 const googleRouter = express.Router()
 
-googleRouter.post('/google' , google)
+googleRouter.post('/' , google)
+
+export default googleRouter
