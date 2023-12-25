@@ -1,4 +1,5 @@
 
+import { getRoomNumber } from "../controllers/calculation.js";
 import {
   displayRooms,
   selectRoom,
@@ -28,5 +29,8 @@ roomRoute.patch("/", editRoom); //with auth
 
 // get rooms for a specific hotel
 roomRoute.post("/byHotel", displayRoomsByHotel);
+
+// get room number for specific hotel 
+roomRoute.post('/number' , getRoomNumber)
 
 export default roomRoute;

@@ -1,4 +1,5 @@
 import db from "../models/index.js";
+import { getRoomNumber } from "./calculation.js";
 const { HotelsModel, RatingModel, RoomsModel, HotelImagesModel } = db;
 
 //get all hotels with populate for rating
@@ -17,17 +18,28 @@ export const getAllHotels = async (req, res) => {
       ],
     });
 
-    // Calculate average rating for each hotel
-    hotels.forEach((hotel) => {
-      const totalRating = hotel.Ratings.reduce(
-        (sum, rating) => sum + rating.rate,
-        0
-      );
-      const averageRating = totalRating / hotel.Ratings.length;
-      hotel.setDataValue("averageRating", averageRating);
-    });
+    // Calculate average rating and get room numbers for each hotel
+    const hotelsWithRoomNumbers = await Promise.all(
+      hotels.map(async (hotel) => {
+        const totalRating = hotel.Ratings.reduce(
+          (sum, rating) => sum + rating.rate,
+          0
+        );
+        const rating = totalRating / hotel.Ratings.length;
 
-    res.status(200).json(hotels);
+        // Fetch room number for each hotel
+        const roomNumberResponse = await getRoomNumber(hotel.id);
+        const roomNumber = roomNumberResponse.data.totalRooms || 0;
+
+        // Add room number and average rating to hotel data
+        hotel.setDataValue("rating", rating);
+        hotel.setDataValue("roomNumber", roomNumber);
+
+        return hotel;
+      })
+    );
+
+    res.status(200).json(hotelsWithRoomNumbers);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
