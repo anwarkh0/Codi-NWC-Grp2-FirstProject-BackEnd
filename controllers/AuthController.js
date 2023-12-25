@@ -57,6 +57,13 @@ export const logIn = async (req, res) => {
         console.log(err)
     }
 }
+
+export const loggedInUser = (req, res) => {
+
+    res.json({ user: req.user }).status(200);
+
+}
+
 export const logOut = async (req, res) => {
 
     try {
