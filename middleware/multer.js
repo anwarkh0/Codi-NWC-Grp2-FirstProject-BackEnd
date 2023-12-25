@@ -11,16 +11,17 @@ const storage = multer.diskStorage({
   },
 });
 
- const uploadImage = multer({ storage: storage,
-  fileFilter: (req,file,cb)=>{
-    if(file.mimetype=='image/jpeg' || file.mimetype=='image/jpg'|| file.mimetype=='image/svg' || file.mimetype=='image/png' || file.mimetype=='image/webp'){
-      cb(null,true)
+const uploadImage = multer({
+  storage: storage,
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype == 'image/jpeg' || file.mimetype == 'image/jpg' || file.mimetype == 'image/svg' || file.mimetype == 'image/png' || file.mimetype == 'image/webp') {
+      cb(null, true)
     }
-    else{
-      cb(null,false);
+    else {
+      cb(null, false);
       return cb(new Error('only jpg , jpeg and png allowed'))
     }
   }
- });
+});
 
- export default uploadImage
+export default uploadImage

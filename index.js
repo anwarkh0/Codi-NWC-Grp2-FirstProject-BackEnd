@@ -11,6 +11,8 @@ import roomImageRoute from "./routes/roomImage.js";
 import googleRouter from './routes/oAuth.js'
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import AuthRoutes from "./routes/AuthRouter.js"
+import db from "./models/index.js";
 
 dotenv.config();
 
@@ -36,6 +38,7 @@ app.use('/reservation', reservationRouter)
 app.use('/google' , googleRouter)
 app.use('/rating', ratingRoute)
 app.use('/user', userRoute)
+app.use('/auth', AuthRoutes)
 
 sequelize
   .sync()
