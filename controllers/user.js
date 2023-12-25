@@ -1,15 +1,19 @@
+import { hash } from "bcrypt"
 import db from "../models/index.js"
+import bcrypt from "bcrypt"
 
 /////////
 export const createUser = async (req, res) => {
   const { firstName, lastName, email, password, role } = req.body
   const image = req.file.filename
+
   try {
+    const hashedPassword = await bcrypt.hash(password, 10)
     const newUser = await db.UsersModel.create({
       firstName,
       lastName,
       email,
-      password,
+      password: hashedPassword,
       role,
       image
     })
@@ -51,12 +55,14 @@ export const updateUser = async (req, res) => {
   const image = req.file.filename;
   const { firstName, lastName, email, password, role } = req.body
   try {
+    const hashedPassword = await bcrypt.hash(password, 10)
+
     const user = await db.UsersModel.update(
       {
         firstName,
         lastName,
         email,
-        password,
+        password: hashedPassword,
         role,
         image,
       },

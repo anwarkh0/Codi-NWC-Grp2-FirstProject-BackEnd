@@ -5,6 +5,8 @@ import ratingRoute from "./routes/rating.js"
 import userRoute from "./routes/user.js"
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import AuthRoutes from "./routes/AuthRouter.js"
+import db from "./models/index.js";
 
 dotenv.config();
 
@@ -28,6 +30,7 @@ app.use(express.json());
 // app.use("/booking", bookingRoute);
 app.use('/rating', ratingRoute)
 app.use('/user', userRoute)
+app.use('/auth', AuthRoutes)
 
 sequelize
   .sync()
