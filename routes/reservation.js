@@ -13,6 +13,7 @@ import {
   getReservationById,
   updateReservation,
   deleteReservation,
+  getReservationsByUserId
 } from "../controllers/reservation.js";
 
 const reservationRouter = express.Router();
@@ -22,5 +23,6 @@ reservationRouter.patch("/", updateReservation);
 reservationRouter.delete("/", deleteReservation);
 reservationRouter.get("/", getAllReservations);
 reservationRouter.post("/id", getReservationById);
+reservationRouter.post('/user' , getReservationsByUserId)
 
 export default reservationRouter;

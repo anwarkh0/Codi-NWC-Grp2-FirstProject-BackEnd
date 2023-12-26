@@ -1,6 +1,6 @@
 import db from "../models/index.js";
 
-const { RoomsModel, HotelsModel } = db;
+const { RoomsModel, HotelsModel , UsersModel , RoomImagesModel} = db;
 //get all the rooms saved in rooms model
 const displayRooms = async (req, res) => {
   try {
@@ -67,7 +67,13 @@ const addRoom = async (req, res) => {
     isBooked,
     quality,
     description,
+    userId
   } = req.body;
+  if (!number || !price || !guestNumber || !hotelId || isBooked === null || !quality || !description || !userId){
+    return res.status(401).json({
+      error : 'All fields are required'
+    })
+  }
   try {
     const newRoom = await RoomsModel.create({
       number,
@@ -77,6 +83,7 @@ const addRoom = async (req, res) => {
       isBooked,
       quality,
       description,
+      userId
     });
     res.status(200).json({ message: "Room added successfully", data: newRoom });
   } catch (error) {
@@ -99,6 +106,25 @@ const displayRoomsByHotel = async (req, res) => {
   }
 };
 
+    // Find all rooms that belong to the specified user and include room images
+const getRoomsByUserId = async (req, res) => {
+  try {
+    const id = req.body.id; 
+    const rooms = await RoomsModel.findAll({
+      where: { userId : id },
+      include: [{
+        model: RoomImagesModel,
+        attributes: ['imageURL'],
+      }],
+    });
+
+    res.status(200).json({ rooms });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
 export {
   displayRooms,
   selectRoom,
@@ -106,4 +132,5 @@ export {
   editRoom,
   addRoom,
   displayRoomsByHotel,
+  getRoomsByUserId
 };

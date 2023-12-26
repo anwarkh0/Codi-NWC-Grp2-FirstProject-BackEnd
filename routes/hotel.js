@@ -5,6 +5,7 @@ import {
   getHotelById,
   updateHotel,
   deleteHotel,
+  getHotelsByUserId
 } from "../controllers/hotel.js";
 // // import { verifyAdmin } from "../middleware/verifyToken.js";
 
@@ -15,5 +16,6 @@ hotelRouter.patch("/", updateHotel);
 hotelRouter.delete("/", deleteHotel);
 hotelRouter.get("/", getAllHotels);
 hotelRouter.post("/id", getHotelById);
+hotelRouter.post('/user', getHotelsByUserId)
 
 export default hotelRouter;

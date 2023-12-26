@@ -7,6 +7,7 @@ import {
   editRoom,
   addRoom,
   displayRoomsByHotel,
+  getRoomsByUserId
 } from "../controllers/room.js";
 
 import express from "express";
@@ -32,5 +33,8 @@ roomRoute.post("/byHotel", displayRoomsByHotel);
 
 // get room number for specific hotel 
 roomRoute.post('/number' , getRoomNumber)
+
+//get room by user id 
+roomRoute.post('/user',getRoomsByUserId )
 
 export default roomRoute;

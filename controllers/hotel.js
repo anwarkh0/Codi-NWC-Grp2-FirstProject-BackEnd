@@ -84,9 +84,9 @@ export const getHotelById = async (req, res) => {
 //create hotel
 export const createHotel = async (req, res) => {
   try {
-    const { name, city, address, description } = req.body;
+    const { name, city, address, description , userId } = req.body;
     // Validate required fields
-    if (!name || !city || !address || !description) {
+    if (!name || !city || !address || !description || !userId) {
       return res.status(400).json({ error: "All fields are required" });
     }
 
@@ -95,6 +95,7 @@ export const createHotel = async (req, res) => {
       city,
       address,
       description,
+      userId
     });
 
     res.status(201).json(newHotel);
@@ -105,7 +106,7 @@ export const createHotel = async (req, res) => {
 
 // Update a hotel by ID
 export const updateHotel = async (req, res) => {
-  const { name, city, address, description, id } = req.body;
+  const { name, city, address, description, id , userId} = req.body;
 
   try {
     const [updatedRows] = await HotelsModel.update(
@@ -114,6 +115,7 @@ export const updateHotel = async (req, res) => {
         city,
         address,
         description,
+        userId
       },
       {
         where: { id: id },
@@ -134,6 +136,7 @@ export const updateHotel = async (req, res) => {
   }
 };
 
+// delete hotel by id 
 export const deleteHotel = async (req, res) => {
   const id = req.body.id;
 
@@ -149,5 +152,35 @@ export const deleteHotel = async (req, res) => {
     res.status(200).json(`hotel with id: ${id} has been deleted successfuly`);
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+};
+
+    // Find all hotels that belong to the specified user 
+export const getHotelsByUserId = async (req, res) => {
+  try {
+    const id = req.body.id; 
+
+    const hotels = await HotelsModel.findAll({
+      where: { userId : id },
+      include: [
+        {
+          model: RatingModel,
+          attributes: ['rate', 'feedback'], 
+        },
+        {
+          model: RoomsModel,
+          attributes: ['number', 'quality', 'guestNumber', 'price', 'description'],
+        },
+        {
+          model: HotelImagesModel,
+          attributes: ['imageURL'], 
+        },
+      ],
+    });
+
+    res.status(200).json({ hotels });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 };

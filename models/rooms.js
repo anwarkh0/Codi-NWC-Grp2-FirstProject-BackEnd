@@ -9,7 +9,7 @@ export default (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Rooms.belongsTo(models.HotelsModel);
-      Rooms.belongsTo(models.UsersModels);
+      Rooms.belongsTo(models.UsersModel);
       Rooms.hasMany(models.ReservationModel, {
         foreignKey: 'roomId',
         onUpdate: 'CASCADE',
