@@ -4,7 +4,7 @@ const { RoomsModel, HotelsModel } = db;
 //get all the rooms saved in rooms model
 const displayRooms = async (req, res) => {
   try {
-    let rooms = await RoomsModel.findAll();
+    const rooms = await RoomsModel.findAll();
 
     res.status(200).json({ data: rooms });
   } catch (error) {

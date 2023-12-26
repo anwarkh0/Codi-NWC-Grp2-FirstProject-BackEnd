@@ -19,6 +19,18 @@ export default (sequelize, DataTypes) => {
         onUpdate: 'CASCADE',
         onDelete: "CASCADE"
       })
+
+      Users.hasMany(models.RoomsModel , {
+        foreignKey: 'userId',
+        onUpdate: 'CASCADE',
+        onDelete: "CASCADE"
+      })
+
+      Users.hasMany(models.HotelsModel , {
+        foreignKey: 'userId',
+        onUpdate: 'CASCADE',
+        onDelete: "CASCADE"
+      })
     }
   }
   Users.init({
@@ -26,7 +38,7 @@ export default (sequelize, DataTypes) => {
     lastName: DataTypes.STRING,
     email: DataTypes.STRING,
     password: DataTypes.STRING,
-    role: DataTypes.ENUM("customer","admin"),
+    role: DataTypes.ENUM("Admin","Hotel Manager", "Customer"),
     image: DataTypes.STRING
   }, {
     sequelize,

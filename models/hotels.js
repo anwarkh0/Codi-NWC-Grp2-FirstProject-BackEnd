@@ -28,9 +28,12 @@ export default (sequelize, DataTypes) => {
         onUpdate: 'CASCADE',
         onDelete: "CASCADE"
       })
+
+      Hotels.belongsTo(models.UsersModel)
     }
   }
   Hotels.init({
+    userId : DataTypes.NUMBER , 
     name: DataTypes.STRING,
     city: DataTypes.STRING,
     address: DataTypes.STRING,

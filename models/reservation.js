@@ -15,12 +15,44 @@ export default (sequelize, DataTypes) => {
   Reservation.init({
     roomId: DataTypes.NUMBER,
     userId: DataTypes.NUMBER,
-    checkInDate: DataTypes.DATE,
-    checkOutDate: DataTypes.DATE,
-    totalPrice: DataTypes.NUMBER
+    checkInDate: {
+      type : DataTypes.DATE ,
+      allowNull: false ,
+      validate: {
+        isDate: true,
+      },
+    },
+    checkOutDate: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      validate: {
+        isDate: true,
+        isAfter: function (value) {
+          if (value <= this.checkInDate) {
+            throw new Error('Check-out date must be after check-in date');
+          }
+        },
+      },
+    },
+    totalPrice: {
+      type: DataTypes.NUMBER,
+      allowNull: false,
+      validate: {
+        isNumeric: true,
+        min: 0,
+      },
+    },
   }, {
     sequelize,
     modelName: 'Reservation',
+    indexes: [
+      {
+        fields: ['roomId'],
+      },
+      {
+        fields: ['userId'],
+      },
+    ],
   });
   return Reservation;
 };

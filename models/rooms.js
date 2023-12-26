@@ -9,6 +9,7 @@ export default (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Rooms.belongsTo(models.HotelsModel);
+      Rooms.belongsTo(models.UsersModels);
       Rooms.hasMany(models.ReservationModel, {
         foreignKey: 'roomId',
         onUpdate: 'CASCADE',
@@ -22,6 +23,7 @@ export default (sequelize, DataTypes) => {
     }
   }
   Rooms.init({
+    userId : DataTypes.NUMBER ,
     number: DataTypes.NUMBER,
     quality: DataTypes.ENUM('High' , 'Medium' , 'Low'),
     guestNumber: DataTypes.NUMBER,
