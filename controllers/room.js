@@ -1,6 +1,6 @@
 import db from "../models/index.js";
 
-const { RoomsModel, ReservationModel , RoomImagesModel} = db;
+const { RoomsModel, ReservationModel , RoomImagesModel, HotelsModel} = db;
 //get all the rooms saved in rooms model
 const displayRooms = async (req, res) => {
   try {
@@ -9,6 +9,10 @@ const displayRooms = async (req, res) => {
         {
           model: ReservationModel,
           attributes: ['checkInDate', 'checkOutDate', 'totalPrice'], 
+        },
+        {
+          model: HotelsModel,
+          attributes: ['name'], 
         },
       ],
     });
