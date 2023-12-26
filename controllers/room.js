@@ -1,10 +1,17 @@
 import db from "../models/index.js";
 
-const { RoomsModel, HotelsModel , UsersModel , RoomImagesModel} = db;
+const { RoomsModel, ReservationModel , RoomImagesModel} = db;
 //get all the rooms saved in rooms model
 const displayRooms = async (req, res) => {
   try {
-    const rooms = await RoomsModel.findAll();
+    const rooms = await RoomsModel.findAll({
+      include: [
+        {
+          model: ReservationModel,
+          attributes: ['checkInDate', 'checkOutDate', 'totalPrice'], 
+        },
+      ],
+    });
 
     res.status(200).json({ data: rooms });
   } catch (error) {
@@ -13,16 +20,25 @@ const displayRooms = async (req, res) => {
 };
 
 //get room from data base according to the id
-const selectRoom = async (req, res) => {
+const getRoomById = async (req, res) => {
   let { id } = req.body;
   try {
-    const room = await RoomsModel.findByPk(id);
+    const room = await RoomsModel.findByPk(id, {
+      include: [
+        {
+          model: ReservationModel,
+          attributes: ['checkInDate', 'checkOutDate', 'totalPrice'],
+        },
+      ],
+    });
+
     if (!room) {
-      return res.status(401).json({ message: "room not found" });
+      return res.status(401).json({ message: "Room not found" });
     }
+
     res.status(200).json({ data: room });
   } catch (error) {
-    res.status(500).json({ error: error });
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -127,7 +143,7 @@ const getRoomsByUserId = async (req, res) => {
 
 export {
   displayRooms,
-  selectRoom,
+  getRoomById,
   deleteRoom,
   editRoom,
   addRoom,

@@ -2,7 +2,7 @@
 import { getRoomNumber } from "../controllers/calculation.js";
 import {
   displayRooms,
-  selectRoom,
+  getRoomById,
   deleteRoom,
   editRoom,
   addRoom,
@@ -20,7 +20,7 @@ roomRoute.post("/",  addRoom); //with auth
 roomRoute.get("/", displayRooms);
 
 //get room by id (for dashboard and room services)
-roomRoute.post("/singleRoom", selectRoom);
+roomRoute.post("/singleRoom", getRoomById);
 
 //Remove Room(dashboard)
 roomRoute.delete("/", deleteRoom); //with auth
