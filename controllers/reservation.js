@@ -1,5 +1,5 @@
 import db from "../models/index.js";
-const { ReservationModel, RoomsModel, RoomImagesModel } = db;
+const { ReservationModel, RoomsModel, RoomImagesModel , UsersModel} = db;
 
 // Get all reservations with populated rooms
 export const getAllReservations = async (req, res) => {
@@ -215,6 +215,32 @@ export const getReservationsByUserId = async (req, res) => {
     });
 
     res.status(200).json({ reservations });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+///get reservation by roomId 
+export const getReservationsByRoomId = async (req, res) => {
+  try {
+    const id = req.body.id; 
+
+    const reservations = await ReservationModel.findAll({
+      where: { roomId : id},
+      include: [
+        {
+          model: RoomsModel,
+          attributes: ['id' ,'number', 'quality', 'guestNumber', 'price', 'description'], 
+        },
+        {
+          model: UsersModel,
+          attributes: ['id' ,'firstName', 'lastName', 'email', 'role' ], 
+        },
+      ],
+    });
+
+    res.status(200).json({data : reservations });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
