@@ -33,6 +33,9 @@ const getRoomById = async (req, res) => {
           model: ReservationModel,
           attributes: ['checkInDate', 'checkOutDate', 'totalPrice'],
         },
+        {
+          model : HotelsModel ,
+        }
       ],
     });
 

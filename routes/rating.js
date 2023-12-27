@@ -3,16 +3,18 @@ import {
     getOneRate,
     getAllRates,
     deleteRate,
-    updateRate
+    updateRate,
+    getRateByHotel
 } from "../controllers/rating.js";
 import express from "express";
 
 const ratingRoute = express.Router()
 
-ratingRoute.post('/create', createRate)
-ratingRoute.get('/getOne', getOneRate)
-ratingRoute.get('/getAll', getAllRates)
-ratingRoute.put('/update', updateRate)
-ratingRoute.delete('/delete', deleteRate)
+ratingRoute.post('/', createRate)
+ratingRoute.post('/id', getOneRate)
+ratingRoute.get('/', getAllRates)
+ratingRoute.patch('/', updateRate)
+ratingRoute.delete('/', deleteRate)
+ratingRoute.post('/byHotel', getRateByHotel)
 
 export default ratingRoute
