@@ -6,7 +6,7 @@ import {
     updateRate
 } from "../controllers/rating.js";
 import express from "express";
-``
+
 const ratingRoute = express.Router()
 
 ratingRoute.post('/create', createRate)
