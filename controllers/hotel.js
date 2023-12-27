@@ -47,10 +47,10 @@ export const getAllHotels = async (req, res) => {
 
 // Get one hotel with populated rooms and images
 export const getHotelById = async (req, res) => {
-  const hotelId = req.body.id;
+  const id = req.body.id;
 
   try {
-    const hotel = await HotelsModel.findByPk(hotelId, {
+    const hotel = await HotelsModel.findByPk(id, {
       include: [
         {
           model: RoomsModel,
@@ -75,7 +75,13 @@ export const getHotelById = async (req, res) => {
       ],
     });
 
-    res.status(200).json(hotel);
+        const totalRating = hotel.Ratings.reduce(
+          (sum, rating) => sum + rating.rate,
+          0
+        );
+        const rating = totalRating / hotel.Ratings.length;
+
+    res.status(200).json({hotel, rating});
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
