@@ -23,7 +23,7 @@ export const createUser = async (req, res) => {
   }
   catch (err) {
     console.log(err)
-    res.state(404).json({ error: "User coudn't be create" })
+    res.status(404).json({ error: "User coudn't be create" })
   }
 }
 ///////////

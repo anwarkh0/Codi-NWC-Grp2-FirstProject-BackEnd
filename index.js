@@ -12,7 +12,7 @@ import googleRouter from './routes/oAuth.js'
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import AuthRoutes from "./routes/AuthRouter.js"
-import db from "./models/index.js";
+import ruleRouter from "./routes/rule.js";
 
 dotenv.config();
 
@@ -35,9 +35,10 @@ app.use('/hotel/image', hotelImageRoute)
 app.use('/room', roomRoute)
 app.use('/room/image', roomImageRoute)
 app.use('/reservation', reservationRouter)
-app.use('/google' , googleRouter)
+app.use('/google', googleRouter)
 app.use('/rating', ratingRoute)
 app.use('/user', userRoute)
+app.use('rule', ruleRouter)
 app.use('/auth', AuthRoutes)
 
 sequelize
