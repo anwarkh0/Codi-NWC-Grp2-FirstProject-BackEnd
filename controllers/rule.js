@@ -2,21 +2,21 @@ import db from "../models/index.js";
 
 ///////
 export const createRule = async (req, res) => {
-    const { title, hotelId } = req.body
-    const image = req.file.filename
+    const { description, hotelId } = req.body
+    const icon = req.file.filename
 
     try {
         const newRule = await db.RulesModel.create({
-            title,
+            description,
             hotelId,
-            image
+            icon
         })
         return res
             .status(200)
             .json({ mess: "rule creact successfully", rule: newRule })
     } catch (error) {
         console.log(error)
-        res.status(404).json({ error: "rule coudn't be create" })
+        res.status(404).json(error.message)
 
     }
 }
@@ -45,18 +45,19 @@ export const deleteRule = async (req, res) => {
 ///////
 export const updateRule = async (req, res) => {
     const { id } = req.params
-    const image = req.file.filename
-    const { title, hotelId } = req.body
+    const icon = req.file.filename
+    const { description, hotelId } = req.body
     try {
         const rule = await db.RulesModel.update(
             {
-                title,
+                description,
                 hotelId,
-                image
+                icon
             },
             {
                 where: { id }
             })
+            res.status.json(rule)
     } catch (error) {
         console.log(error)
     }

@@ -38,7 +38,7 @@ app.use('/reservation', reservationRouter)
 app.use('/google', googleRouter)
 app.use('/rating', ratingRoute)
 app.use('/user', userRoute)
-app.use('rule', ruleRouter)
+app.use('/rule', ruleRouter)
 app.use('/auth', AuthRoutes)
 
 sequelize
