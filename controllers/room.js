@@ -8,16 +8,26 @@ const displayRooms = async (req, res) => {
       include: [
         {
           model: ReservationModel,
-          attributes: ['checkInDate', 'checkOutDate', 'totalPrice'], 
         },
         {
           model: HotelsModel,
-          attributes: ['name'], 
         },
+        {
+          model : RoomImagesModel
+        }
       ],
     });
 
-    res.status(200).json({ data: rooms });
+    const roomWithHotel = await Promise.all(
+      rooms.map(async (room) => {
+        const hotel = room.Hotel ? room.Hotel.name : ""
+        room.setDataValue('hotel' , hotel)
+
+        return room
+      })
+    )
+
+    res.status(200).json({ data: roomWithHotel });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -35,6 +45,9 @@ const getRoomById = async (req, res) => {
         },
         {
           model : HotelsModel ,
+        },
+        {
+          model : RoomImagesModel
         }
       ],
     });

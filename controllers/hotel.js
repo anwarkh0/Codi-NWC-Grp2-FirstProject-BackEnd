@@ -9,12 +9,13 @@ export const getAllHotels = async (req, res) => {
       include: [
         {
           model: RatingModel,
-          attributes: ["id", "rate", "feedback", "userId"],
         },
         {
           model: HotelImagesModel,
-          attributes: ["id", "icon"],
         },
+        {
+          model: RoomsModel
+        }
       ],
     });
 
@@ -25,15 +26,14 @@ export const getAllHotels = async (req, res) => {
           (sum, rating) => sum + rating.rate,
           0
         );
-        const rating = totalRating / hotel.Ratings.length;
+        const rating = totalRating / (hotel.Ratings.length || 1); // Prevent division by zero
 
-        // Fetch room number for each hotel
-        const roomNumberResponse = await getRoomNumber(hotel.id);
-        const roomNumber = roomNumberResponse.data.totalRooms || 0;
+        // Count the number of rooms for each hotel
+        const roomCount = hotel.Rooms ? hotel.Rooms.length : 0;
 
-        // Add room number and average rating to hotel data
+        // Add room number, room count, and average rating to hotel data
         hotel.setDataValue("rating", rating);
-        hotel.setDataValue("roomNumber", roomNumber);
+        hotel.setDataValue("roomNumber", roomCount);
 
         return hotel;
       })
@@ -54,27 +54,15 @@ export const getHotelById = async (req, res) => {
       include: [
         {
           model: RoomsModel,
-          attributes: [
-            "id",
-            "number",
-            "quality",
-            "guestNumber",
-            "isBooked",
-            "price",
-            "description",
-          ],
         },
         {
           model: HotelImagesModel,
-          attributes: ["id", "icon"],
         },
         {
           model: RatingModel,
-          attributes: ["id", "rate", "feedback", "userId"],
         },
         {
           model : UsersModel,
-          attributes: ['id' , 'firstName', 'lastName', 'role']
         },
         {
           model: RulesModel

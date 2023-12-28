@@ -55,7 +55,7 @@ const deleteImage = async (req, res) => {
 
 //find from data base then apdate
 const editImage = async (req, res) => {
-  const { id } = req.body;
+  const id = req.body.id ;
   const icon = req.file.path;
   try {
     const image = await RoomImagesModel.findByPk(id);
@@ -78,13 +78,13 @@ const editImage = async (req, res) => {
 
 
 const addImage = async (req, res) => {
-    const image = req.path.file;
-    const { roomId } = req.body;
+    const icon = req.file.path;
+    const roomId = req.body.roomId;
   
     try {
         const newImage = await RoomImagesModel.create({
           roomId,
-          imageURL: image,
+          icon,
         });
       return res.status(200).json({ message: "Images added" });
     } catch (error) {

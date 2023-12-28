@@ -13,7 +13,7 @@ export default (sequelize, DataTypes) => {
     }
   }
   Rating.init({
-    rate: DataTypes.NUMBER,
+    rate: DataTypes.DECIMAL,
     feedback: DataTypes.STRING,
     hotelId: DataTypes.NUMBER,
     userId : DataTypes.INTEGER
