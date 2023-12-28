@@ -2,24 +2,28 @@ import db from "../models/index.js";
 
 ///////
 export const createRule = async (req, res) => {
-    const { description, hotelId } = req.body
-    const icon = req.file.filename
+    const { description, hotelId } = req.body;
 
     try {
+        // Check if a file was uploaded
+        if (!req.file) {
+            return res.status(400).json({ error: "No file uploaded" });
+        }
+
+        const icon = req.file.path; 
+
         const newRule = await db.RulesModel.create({
             description,
             hotelId,
             icon
-        })
-        return res
-            .status(200)
-            .json({ mess: "rule creact successfully", rule: newRule })
-    } catch (error) {
-        console.log(error)
-        res.status(404).json(error.message)
+        });
 
+        return res.status(200).json({ mess: "Rule created successfully", rule: newRule });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: "Internal Server Error" });
     }
-}
+};
 
 ///////
 export const getAllRule = async (req, res) => {
@@ -33,7 +37,7 @@ export const getAllRule = async (req, res) => {
 
 ///////
 export const deleteRule = async (req, res) => {
-    const { id } = req.params
+    const id = req.body.id
     try {
         await db.RulesModel.destroy({ where: { id } })
         res.status(200).json({ message: "rule deleted successfully" })
@@ -44,7 +48,7 @@ export const deleteRule = async (req, res) => {
 }
 ///////
 export const updateRule = async (req, res) => {
-    const { id } = req.params
+    const id  = req.body.id
     const icon = req.file.filename
     const { description, hotelId } = req.body
     try {

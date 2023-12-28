@@ -1,22 +1,22 @@
 import uploadImage from "../middleware/multer.js";
 import {
-    getImage, deleteImage, editImage, addImage, displayImagesByRoom
-} from "../controllers/roomImageController.js";
+    getHotelImage, deleteHotelImage, editHotelImage, addHotelImage, displayImagesByHotel
+} from "../controllers/hotelImagesController.js";
 
 import express from "express";
 const hotelImageRoute = express.Router();
 //add Room(dashboard)
-hotelImageRoute.post("/add",uploadImage.array('images', 4),  addImage); 
+hotelImageRoute.post("/add",uploadImage.single('icon'),  addHotelImage); 
 
 //get all rooms available
-hotelImageRoute.post("/get", getImage);
+hotelImageRoute.post("/get", getHotelImage);
 
-hotelImageRoute.post("/getByhotel", displayImagesByRoom);
+hotelImageRoute.post("/getByhotel", displayImagesByHotel);
 
 //Remove Room(dashboard)
-hotelImageRoute.delete("/", deleteImage);
+hotelImageRoute.delete("/", deleteHotelImage);
 
 //edit Room(dashboard)
-hotelImageRoute.patch("/",uploadImage.single("image"), editImage); 
+hotelImageRoute.patch("/",uploadImage.single("icon"), editHotelImage); 
 
 export default hotelImageRoute;

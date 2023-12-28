@@ -30,11 +30,10 @@ export default (sequelize, DataTypes) => {
     isBooked: DataTypes.BOOLEAN,
     hotelId: DataTypes.NUMBER,
     price: DataTypes.NUMBER,
-    description : DataTypes.STRING,
+    description : DataTypes.TEXT ,
   }, {
     sequelize,
     modelName: 'Rooms',
-    timestamps: true,
   });
   return Rooms;
 };

@@ -1,6 +1,6 @@
 import db from "../models/index.js";
 import { getRoomNumber } from "./calculation.js";
-const { HotelsModel, RatingModel, RoomsModel, HotelImagesModel } = db;
+const { HotelsModel, RatingModel, RoomsModel, HotelImagesModel, UsersModel, RulesModel } = db;
 
 //get all hotels with populate for rating
 export const getAllHotels = async (req, res) => {
@@ -13,7 +13,7 @@ export const getAllHotels = async (req, res) => {
         },
         {
           model: HotelImagesModel,
-          attributes: ["id", "imageURL"],
+          attributes: ["id", "icon"],
         },
       ],
     });
@@ -66,12 +66,19 @@ export const getHotelById = async (req, res) => {
         },
         {
           model: HotelImagesModel,
-          attributes: ["id", "imageUrl"],
+          attributes: ["id", "icon"],
         },
         {
           model: RatingModel,
           attributes: ["id", "rate", "feedback", "userId"],
         },
+        {
+          model : UsersModel,
+          attributes: ['id' , 'firstName', 'lastName', 'role']
+        },
+        {
+          model: RulesModel
+        }
       ],
     });
 
@@ -179,7 +186,7 @@ export const getHotelsByUserId = async (req, res) => {
         },
         {
           model: HotelImagesModel,
-          attributes: ['imageURL'], 
+          attributes: ['icon'], 
         },
       ],
     });

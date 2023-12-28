@@ -6,7 +6,7 @@ import {
 import express from "express";
 const roomImageRoute = express.Router();
 //add Room(dashboard)
-roomImageRoute.post("/add",uploadImage.array('images', 4),  addImage); 
+roomImageRoute.post("/add",uploadImage.single('image'),  addImage); 
 
 //get all rooms available
 roomImageRoute.post("/get", getImage);

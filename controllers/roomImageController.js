@@ -4,7 +4,7 @@ const { RoomImagesModel } = db;
 
 //get room from data base according to the id
 const getImage = async (req, res) => {
-  let { id } = req.body;
+  let id= req.body.id ;
   try {
     const image = await RoomImagesModel.findByPk(id);
     if (!image) {
@@ -18,7 +18,7 @@ const getImage = async (req, res) => {
 
 const displayImagesByRoom = async (req, res) => {
     try {
-      const {roomId} = req.body;
+      const roomId= req.body.roomId;
       const images = await RoomImagesModel.findAll({
         where: { roomId: roomId },
       });
@@ -39,7 +39,7 @@ const deleteImage = async (req, res) => {
       if (!image) {
         return res.status(404).json({ error: "Image not found" });
       }
-      fs.unlink(image.imageURL, (err) => {
+      fs.unlink(image.icon, (err) => {
         if (err) {
           return res.status(500).json({ error: "Error deleting file" });
         }
@@ -56,18 +56,20 @@ const deleteImage = async (req, res) => {
 //find from data base then apdate
 const editImage = async (req, res) => {
   const { id } = req.body;
-  const imageURL = req.files;
+  const icon = req.file.path;
   try {
     const image = await RoomImagesModel.findByPk(id);
     if (!image) {
       return res.status(404).json({ error: "image not found" });
     }
-    const updatedimage = await image.update(imageURL);
-    fs.unlink(image.imageURL, (err) => {
-        if (err) {
-          console.error("Error deleting file:", err);
-        }
-      });
+    const updatedimage = await image.update(icon);
+    if (updatedimage){
+      fs.unlink(image.icon, (err) => {
+          if (err) {
+            console.error("Error deleting file:", err);
+          }
+        });
+    }
     res.status(200).json({ data: updatedimage });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -76,27 +78,14 @@ const editImage = async (req, res) => {
 
 
 const addImage = async (req, res) => {
-    const uploadedImages = req.files;
+    const image = req.path.file;
     const { roomId } = req.body;
   
     try {
-      if (!uploadedImages || uploadedImages.length === 0) {
-        return res.status(400).json("No images were uploaded.");
-      }
-  
-      for (const image of uploadedImages) {
-        const existingImage = await RoomImagesModel.findOne({
-          where: { imageURL: image.path, roomId },
+        const newImage = await RoomImagesModel.create({
+          roomId,
+          imageURL: image,
         });
-  
-        if (!existingImage) {
-          const newImage = await RoomImagesModel.create({
-            roomId,
-            imageURL: image.path,
-          });
-        }
-      }
-  
       return res.status(200).json({ message: "Images added" });
     } catch (error) {
       return res.status(500).json({ error: error.message });
