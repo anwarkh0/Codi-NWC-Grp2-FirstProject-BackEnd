@@ -1,6 +1,6 @@
 import db from "../models/index.js";
 
-const { RoomsModel, ReservationModel , RoomImagesModel, HotelsModel} = db;
+const { RoomsModel, ReservationModel, RoomImagesModel, HotelsModel } = db;
 //get all the rooms saved in rooms model
 const displayRooms = async (req, res) => {
   try {
@@ -8,16 +8,29 @@ const displayRooms = async (req, res) => {
       include: [
         {
           model: ReservationModel,
-          attributes: ['checkInDate', 'checkOutDate', 'totalPrice'], 
+          attributes: ["checkInDate", "checkOutDate", "totalPrice"],
         },
         {
           model: HotelsModel,
-          attributes: ['name'], 
+          attributes: ["name"],
         },
       ],
     });
 
-    res.status(200).json({ data: rooms });
+    const formattedRooms = rooms.map((room) => ({
+      id: room.id,
+      Hotel: room.Hotel ? room.Hotel.name : "",
+      price: room.price || 0,
+      number: room.number || 0,
+      guestNumber: room.guestNumber || 0,
+      isBooked: room.isBooked ? "true" : "false",
+      description: room.description,
+      Reservations:
+        room.Reservations.length > 0 ? room.Reservations : "No Reservation",
+      hotelId: room.hotelId,
+    }));
+
+    res.status(200).json({ data: formattedRooms });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -31,7 +44,7 @@ const getRoomById = async (req, res) => {
       include: [
         {
           model: ReservationModel,
-          attributes: ['checkInDate', 'checkOutDate', 'totalPrice'],
+          attributes: ["checkInDate", "checkOutDate", "totalPrice"],
         },
       ],
     });
@@ -49,7 +62,6 @@ const getRoomById = async (req, res) => {
 //delete it from data base room and remove id from hotel
 const deleteRoom = async (req, res) => {
   let { id } = req.body;
-
   try {
     const room = await RoomsModel.findByPk(id);
     if (!room) {
@@ -87,12 +99,21 @@ const addRoom = async (req, res) => {
     isBooked,
     quality,
     description,
-    userId
+    userId,
   } = req.body;
-  if (!number || !price || !guestNumber || !hotelId || isBooked === null || !quality || !description || !userId){
+  if (
+    !number ||
+    !price ||
+    !guestNumber ||
+    !hotelId ||
+    isBooked === null ||
+    !quality ||
+    !description ||
+    !userId
+  ) {
     return res.status(401).json({
-      error : 'All fields are required'
-    })
+      error: "All fields are required",
+    });
   }
   try {
     const newRoom = await RoomsModel.create({
@@ -103,7 +124,7 @@ const addRoom = async (req, res) => {
       isBooked,
       quality,
       description,
-      userId
+      userId,
     });
     res.status(200).json({ message: "Room added successfully", data: newRoom });
   } catch (error) {
@@ -126,22 +147,53 @@ const displayRoomsByHotel = async (req, res) => {
   }
 };
 
-    // Find all rooms that belong to the specified user and include room images
+// Find all rooms that belong to the specified user and include room images
 const getRoomsByUserId = async (req, res) => {
   try {
-    const id = req.body.id; 
+    const id = req.body.id;
     const rooms = await RoomsModel.findAll({
-      where: { userId : id },
-      include: [{
-        model: RoomImagesModel,
-        attributes: ['imageURL'],
-      }],
+      where: { userId: id },
+      include: [
+        {
+          model: RoomImagesModel,
+          attributes: ["imageURL"],
+        },
+      ],
     });
 
     res.status(200).json({ rooms });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+const displayRoomByOrder = async (req, res) => {
+  const { type } = req.body;
+  try {
+    let orderCriteria;
+    switch (type) {
+      case "quality":
+        orderCriteria = orderCriteria = [["quality", "ASC"]];
+        break;
+      case "price":
+        orderCriteria = [["price", "ASC"]];
+        break;
+      case "guestNumber":
+        orderCriteria = [["guestNumber", "DESC"]];
+        break;
+      default:
+        orderCriteria = [["createdAt", "DESC"]];
+        break;
+    }
+
+    const rooms = await RoomsModel.findAll({
+      order: orderCriteria,
+    });
+
+    res.status(200).json({ data :rooms });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -152,5 +204,6 @@ export {
   editRoom,
   addRoom,
   displayRoomsByHotel,
-  getRoomsByUserId
+  getRoomsByUserId,
+  displayRoomByOrder
 };
