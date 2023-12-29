@@ -6,7 +6,7 @@ import {
 import express from "express";
 const roomImageRoute = express.Router();
 //add Room(dashboard)
-roomImageRoute.post("/add",uploadImage.single('image'),  addImage); 
+roomImageRoute.post("/add",uploadImage.single('icon'),  addImage); 
 
 //get all rooms available
 roomImageRoute.post("/get", getImage);
@@ -17,6 +17,6 @@ roomImageRoute.post("/getByRoom", displayImagesByRoom);
 roomImageRoute.delete("/", deleteImage);
 
 //edit Room(dashboard)
-roomImageRoute.patch("/",uploadImage.single("image"), editImage); 
+roomImageRoute.patch("/",uploadImage.single("icon"), editImage); 
 
 export default roomImageRoute;

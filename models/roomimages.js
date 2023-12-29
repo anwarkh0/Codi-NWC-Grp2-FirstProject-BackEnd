@@ -12,7 +12,7 @@ export default (sequelize, DataTypes) => {
     }
   }
   RoomImages.init({
-    imageURL: DataTypes.STRING,
+    icon: DataTypes.STRING,
     roomId: DataTypes.INTEGER,
   }, {
     sequelize,

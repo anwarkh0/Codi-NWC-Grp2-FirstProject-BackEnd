@@ -1,6 +1,6 @@
 import db from "../models/index.js";
 import { getRoomNumber } from "./calculation.js";
-const { HotelsModel, RatingModel, RoomsModel, HotelImagesModel } = db;
+const { HotelsModel, RatingModel, RoomsModel, HotelImagesModel, UsersModel, RulesModel } = db;
 
 //get all hotels with populate for rating
 export const getAllHotels = async (req, res) => {
@@ -9,12 +9,13 @@ export const getAllHotels = async (req, res) => {
       include: [
         {
           model: RatingModel,
-          attributes: ["id", "rate", "feedback", "userId"],
         },
         {
           model: HotelImagesModel,
-          attributes: ["id", "imageURL"],
         },
+        {
+          model: RoomsModel
+        }
       ],
     });
 
@@ -25,15 +26,14 @@ export const getAllHotels = async (req, res) => {
           (sum, rating) => sum + rating.rate,
           0
         );
-        const rating = totalRating / hotel.Ratings.length;
+        const rating = totalRating / (hotel.Ratings.length || 1); // Prevent division by zero
 
-        // Fetch room number for each hotel
-        const roomNumberResponse = await getRoomNumber(hotel.id);
-        const roomNumber = roomNumberResponse.data.totalRooms || 0;
+        // Count the number of rooms for each hotel
+        const roomCount = hotel.Rooms ? hotel.Rooms.length : 0;
 
-        // Add room number and average rating to hotel data
+        // Add room number, room count, and average rating to hotel data
         hotel.setDataValue("rating", rating);
-        hotel.setDataValue("roomNumber", roomNumber);
+        hotel.setDataValue("roomNumber", roomCount);
 
         return hotel;
       })
@@ -47,35 +47,36 @@ export const getAllHotels = async (req, res) => {
 
 // Get one hotel with populated rooms and images
 export const getHotelById = async (req, res) => {
-  const hotelId = req.body.id;
+  const id = req.body.id;
 
   try {
-    const hotel = await HotelsModel.findByPk(hotelId, {
+    const hotel = await HotelsModel.findByPk(id, {
       include: [
         {
           model: RoomsModel,
-          attributes: [
-            "id",
-            "number",
-            "quality",
-            "guestNumber",
-            "isBooked",
-            "price",
-            "description",
-          ],
         },
         {
           model: HotelImagesModel,
-          attributes: ["id", "imageUrl"],
         },
         {
           model: RatingModel,
-          attributes: ["id", "rate", "feedback", "userId"],
         },
+        {
+          model : UsersModel,
+        },
+        {
+          model: RulesModel
+        }
       ],
     });
 
-    res.status(200).json(hotel);
+        const totalRating = hotel.Ratings.reduce(
+          (sum, rating) => sum + rating.rate,
+          0
+        );
+        const rating = totalRating / hotel.Ratings.length;
+
+    res.status(200).json({hotel, rating});
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -173,7 +174,7 @@ export const getHotelsByUserId = async (req, res) => {
         },
         {
           model: HotelImagesModel,
-          attributes: ['imageURL'], 
+          attributes: ['icon'], 
         },
       ],
     });
