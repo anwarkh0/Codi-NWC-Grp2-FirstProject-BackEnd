@@ -173,6 +173,7 @@ const getRoomsByUserId = async (req, res) => {
 
 const displayRoomByOrder = async (req, res) => {
   const { type } = req.body;
+  console.log(req.body)
   try {
     let orderCriteria;
     switch (type) {
@@ -192,6 +193,7 @@ const displayRoomByOrder = async (req, res) => {
 
     const rooms = await RoomsModel.findAll({
       order: orderCriteria,
+      include: [{ model: RoomImagesModel }],
     });
 
     res.status(200).json({ data :rooms });
