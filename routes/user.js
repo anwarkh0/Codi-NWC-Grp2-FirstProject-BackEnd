@@ -11,11 +11,11 @@ import { authenticate, checkRole } from "../middleware/authMiddleware.js"
 
 const router = express.Router()
 
-router.post('/create', uploadImage.single("image"), createUser)
-router.get('/getOne', authenticate, getOneUser)
-router.get('/getAll', authenticate, checkRole(["admin"]), getAllUsers)
-router.put('/update', authenticate, uploadImage.single("image"), updateUser)
-router.delete('/delete', authenticate, checkRole(["admin"]), deleteUser,
+router.post('/create', uploadImage.single("icon"), createUser)
+router.post('/getOne', getOneUser)
+router.get('/getAll', getAllUsers)
+router.patch('/update', uploadImage.single("icon"), updateUser)
+router.delete('/delete', deleteUser,
 )
 
 export default router

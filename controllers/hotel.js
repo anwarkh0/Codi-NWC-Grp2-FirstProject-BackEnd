@@ -23,10 +23,12 @@ export const getAllHotels = async (req, res) => {
     const hotelsWithRoomNumbers = await Promise.all(
       hotels.map(async (hotel) => {
         const totalRating = hotel.Ratings.reduce(
-          (sum, rating) => sum + rating.rate,
+          (sum, rating) => sum + parseInt(rating.rate, 10),
           0
         );
-        const rating = totalRating / (hotel.Ratings.length || 1); // Prevent division by zero
+        const rating = hotel.Ratings.length > 0
+          ? totalRating / hotel.Ratings.length
+          : 0; // Prevent division by zero
 
         // Count the number of rooms for each hotel
         const roomCount = hotel.Rooms ? hotel.Rooms.length : 0;
@@ -70,11 +72,13 @@ export const getHotelById = async (req, res) => {
       ],
     });
 
-        const totalRating = hotel.Ratings.reduce(
-          (sum, rating) => sum + rating.rate,
-          0
-        );
-        const rating = totalRating / hotel.Ratings.length;
+    const totalRating = hotel.Ratings.reduce(
+      (sum, rating) => sum + parseInt(rating.rate, 10),
+      0
+    );
+    const rating = hotel.Ratings.length > 0
+      ? totalRating / hotel.Ratings.length
+      : 0;
 
     res.status(200).json({hotel, rating});
   } catch (error) {
