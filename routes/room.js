@@ -8,7 +8,8 @@ import {
   addRoom,
   displayRoomsByHotel,
   getRoomsByUserId,
-  displayRoomByOrder
+  displayRoomByOrder,
+  searchRooms
 } from "../controllers/room.js";
 
 import express from "express";
@@ -21,6 +22,8 @@ roomRoute.post("/",  addRoom); //with auth
 roomRoute.get("/", displayRooms);
 
 roomRoute.post("/order", displayRoomByOrder);
+
+roomRoute.post("/search", searchRooms);
 
 //get room by id (for dashboard and room services)
 roomRoute.post("/singleRoom", getRoomById);
