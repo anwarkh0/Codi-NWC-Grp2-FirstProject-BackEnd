@@ -55,9 +55,6 @@ export const getHotelById = async (req, res) => {
     const hotel = await HotelsModel.findByPk(id, {
       include: [
         {
-          model: RoomsModel,
-        },
-        {
           model: HotelImagesModel,
         },
         {
