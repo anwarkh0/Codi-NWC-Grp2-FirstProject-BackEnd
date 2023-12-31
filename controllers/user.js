@@ -37,12 +37,27 @@ export const getOneUser = async (req, res) => {
       include: [
         {
           model: db.ReservationModel,
+          include: [
+            {
+              model : db.RoomsModel
+            }
+          ]
         },
         {
           model: db.RatingModel,
+          include: [
+            {
+              model : db.HotelsModel
+            }
+          ]
         },
         {
           model: db.RoomsModel,
+          include : [
+            {
+              model : db.HotelsModel
+            }
+          ]
         },
         {
           model: db.HotelsModel,

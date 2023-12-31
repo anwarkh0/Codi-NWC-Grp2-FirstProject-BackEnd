@@ -137,14 +137,18 @@ const addRoom = async (req, res) => {
 
 const displayRoomsByHotel = async (req, res) => {
   try {
-    const hotelId = req.body.id;
+    const hotelId = req.body.hotelId;
     const rooms = await RoomsModel.findAll({
-      where: { hotelId: hotelId },
+      where: { hotelId: hotelId }, include:[
+        {
+          model : RoomImagesModel
+        }
+      ]
     });
     if (!rooms || rooms.length === 0) {
       return res.status(404).json({ message: "No rooms found for this hotel" });
     }
-    res.status(200).json({ data: rooms });
+    res.status(200).json(rooms);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

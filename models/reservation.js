@@ -38,7 +38,6 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.NUMBER,
       allowNull: false,
       validate: {
-        isNumeric: true,
         min: 0,
       },
     },
