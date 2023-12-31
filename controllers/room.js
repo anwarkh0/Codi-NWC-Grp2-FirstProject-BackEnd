@@ -270,7 +270,7 @@ const searchRooms = async (req, res) => {
     if(rooms.length>0){
       res.status(200).json({ data: rooms });
     }else{
-      res.status(200).json({ data : "No rooms available for this citeria" });
+      res.status(200).json({ data : [] });
     }
   } catch (error) {
     res.status(500).json({ error: error.message });
