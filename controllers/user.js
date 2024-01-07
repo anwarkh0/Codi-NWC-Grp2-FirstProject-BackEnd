@@ -74,7 +74,7 @@ export const getOneUser = async (req, res) => {
 export const getAllUsers = async (req, res) => {
   try {
     const allUsers = await db.UsersModel.findAll();
-    res.status(200).json(allUsers);
+    res.status(200).json({data:allUsers});
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: "cannot fetch Users" });
