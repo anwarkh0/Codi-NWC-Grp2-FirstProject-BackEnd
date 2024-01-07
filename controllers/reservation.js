@@ -8,15 +8,6 @@ export const getAllReservations = async (req, res) => {
         include: [
           {
             model: RoomsModel,
-            attributes: [
-              "id",
-              "number",
-              "quality",
-              "guestNumber",
-              "isBooked",
-              "price",
-              "description",
-            ],
           },
         ],
       });

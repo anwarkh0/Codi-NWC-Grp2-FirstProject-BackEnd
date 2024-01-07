@@ -28,7 +28,13 @@ export const createRule = async (req, res) => {
 ///////
 export const getAllRule = async (req, res) => {
     try {
-        const allRules = await db.RulesModel.findAll()
+        const allRules = await db.RulesModel.findAll({
+            include:[
+                {
+                    model: db.HotelsModel
+                }
+            ]
+        })
         res.status(200).json(allRules)
     } catch (error) {
         console.log(error)
@@ -49,14 +55,15 @@ export const deleteRule = async (req, res) => {
 ///////
 export const updateRule = async (req, res) => {
     const id  = req.body.id
-    const icon = req.file.filename
+    const icon = req.file?.path; 
     const { description, hotelId } = req.body
     try {
+        const oldRule = await db.RulesModel.findByPk(id)
         const rule = await db.RulesModel.update(
             {
                 description,
                 hotelId,
-                icon
+                icon : icon ? icon : oldRule.icon
             },
             {
                 where: { id }

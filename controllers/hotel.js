@@ -1,6 +1,13 @@
 import db from "../models/index.js";
 import { getRoomNumber } from "./calculation.js";
-const { HotelsModel, RatingModel, RoomsModel, HotelImagesModel, UsersModel, RulesModel } = db;
+const {
+  HotelsModel,
+  RatingModel,
+  RoomsModel,
+  HotelImagesModel,
+  UsersModel,
+  RulesModel,
+} = db;
 
 //get all hotels with populate for rating
 export const getAllHotels = async (req, res) => {
@@ -14,8 +21,8 @@ export const getAllHotels = async (req, res) => {
           model: HotelImagesModel,
         },
         {
-          model: RoomsModel
-        }
+          model: RoomsModel,
+        },
       ],
     });
 
@@ -26,16 +33,22 @@ export const getAllHotels = async (req, res) => {
           (sum, rating) => sum + parseInt(rating.rate, 10),
           0
         );
-        const rating = hotel.Ratings.length > 0
-          ? totalRating / hotel.Ratings.length
-          : 0; // Prevent division by zero
+        const rating =
+          hotel.Ratings.length > 0 ? totalRating / hotel.Ratings.length : 0; // Prevent division by zero
 
         // Count the number of rooms for each hotel
         const roomCount = hotel.Rooms ? hotel.Rooms.length : 0;
 
+        // Get the first item from the HotelImages array
+        const firstHotelImage =
+          hotel.HotelImages && hotel.HotelImages.length > 0
+            ? hotel.HotelImages[0].icon
+            : null;
+
         // Add room number, room count, and average rating to hotel data
         hotel.setDataValue("rating", rating);
         hotel.setDataValue("roomNumber", roomCount);
+        hotel.setDataValue("cover", firstHotelImage);
 
         return hotel;
       })
@@ -61,11 +74,11 @@ export const getHotelById = async (req, res) => {
           model: RatingModel,
         },
         {
-          model : UsersModel,
+          model: UsersModel,
         },
         {
-          model: RulesModel
-        }
+          model: RulesModel,
+        },
       ],
     });
 
@@ -73,11 +86,10 @@ export const getHotelById = async (req, res) => {
       (sum, rating) => sum + parseInt(rating.rate, 10),
       0
     );
-    const rating = hotel.Ratings.length > 0
-      ? totalRating / hotel.Ratings.length
-      : 0;
+    const rating =
+      hotel.Ratings.length > 0 ? totalRating / hotel.Ratings.length : 0;
 
-    res.status(200).json({hotel, rating});
+    res.status(200).json({ hotel, rating });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -86,7 +98,7 @@ export const getHotelById = async (req, res) => {
 //create hotel
 export const createHotel = async (req, res) => {
   try {
-    const { name, city, address, description , userId } = req.body;
+    const { name, city, address, description, userId } = req.body;
     // Validate required fields
     if (!name || !city || !address || !description || !userId) {
       return res.status(400).json({ error: "All fields are required" });
@@ -97,7 +109,7 @@ export const createHotel = async (req, res) => {
       city,
       address,
       description,
-      userId
+      userId,
     });
 
     res.status(201).json(newHotel);
@@ -108,7 +120,7 @@ export const createHotel = async (req, res) => {
 
 // Update a hotel by ID
 export const updateHotel = async (req, res) => {
-  const { name, city, address, description, id , userId} = req.body;
+  const { name, city, address, description, id, userId } = req.body;
 
   try {
     const [updatedRows] = await HotelsModel.update(
@@ -117,7 +129,7 @@ export const updateHotel = async (req, res) => {
         city,
         address,
         description,
-        userId
+        userId,
       },
       {
         where: { id: id },
@@ -138,7 +150,7 @@ export const updateHotel = async (req, res) => {
   }
 };
 
-// delete hotel by id 
+// delete hotel by id
 export const deleteHotel = async (req, res) => {
   const id = req.body.id;
 
@@ -157,25 +169,31 @@ export const deleteHotel = async (req, res) => {
   }
 };
 
-    // Find all hotels that belong to the specified user 
+// Find all hotels that belong to the specified user
 export const getHotelsByUserId = async (req, res) => {
   try {
-    const id = req.body.id; 
+    const id = req.body.id;
 
     const hotels = await HotelsModel.findAll({
-      where: { userId : id },
+      where: { userId: id },
       include: [
         {
           model: RatingModel,
-          attributes: ['rate', 'feedback'], 
+          attributes: ["rate", "feedback"],
         },
         {
           model: RoomsModel,
-          attributes: ['number', 'quality', 'guestNumber', 'price', 'description'],
+          attributes: [
+            "number",
+            "quality",
+            "guestNumber",
+            "price",
+            "description",
+          ],
         },
         {
           model: HotelImagesModel,
-          attributes: ['icon'], 
+          attributes: ["icon"],
         },
       ],
     });
@@ -183,6 +201,6 @@ export const getHotelsByUserId = async (req, res) => {
     res.status(200).json({ hotels });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };

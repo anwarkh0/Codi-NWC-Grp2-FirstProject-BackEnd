@@ -35,11 +35,23 @@ export const getAllRates = async (req, res) => {
       include: [
         {
           model: db.UsersModel,
-          attributes: ["id", "firstName", "lastName", "role", "email"],
+        },
+        {
+          model: db.HotelsModel,
         },
       ],
     });
-    res.status(200).json(allRate);
+
+    const RatewithUser = await Promise.all(
+      allRate.map(async (rate) => {
+        const hotelName = rate.Hotel.name;
+        const UserName = rate.User.firstName + ' ' + rate.User.lastName;
+        rate.setDataValue("hotelName", hotelName);
+        rate.setDataValue("UserName", UserName);
+        return rate;
+      })
+    );
+    res.status(200).json(RatewithUser);
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: "cannot fetch rates" });
@@ -88,11 +100,11 @@ export const getRateByHotel = async (req, res) => {
       include: [
         {
           model: db.UsersModel,
-          attributes: ["id", "firstName", "lastName", "role", "email"],
+          attributes: ["id", "firstName", "lastName", "role", "email", "image"],
         },
       ],
     });
-    
+
     res.status(200).json(ratings);
   } catch (error) {
     return res.status(500).json(error);
