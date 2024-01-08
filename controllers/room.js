@@ -20,7 +20,10 @@ const displayRooms = async (req, res) => {
 
     const roomWithHotel = await Promise.all(
       rooms.map(async (room) => {
-        const hotel = room.Hotel ? room.Hotel.name : ""
+        const hotel = room.Hotel ? room.Hotel.name : "";
+        const cover = room.RoomImages[0].icon
+
+        room.setDataValue('cover', cover)
         room.setDataValue('hotel' , hotel)
 
         return room

@@ -5,13 +5,15 @@ import {
   getHotelById,
   updateHotel,
   deleteHotel,
-  getHotelsByUserId
+  getHotelsByUserId,
+  getHotelByName
 } from "../controllers/hotel.js";
 // // import { verifyAdmin } from "../middleware/verifyToken.js";
 
 const hotelRouter = express.Router();
 
 hotelRouter.post("/", createHotel);
+hotelRouter.post("/byName", getHotelByName);
 hotelRouter.patch("/", updateHotel);
 hotelRouter.delete("/", deleteHotel);
 hotelRouter.get("/", getAllHotels);

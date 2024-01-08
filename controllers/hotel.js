@@ -204,3 +204,60 @@ export const getHotelsByUserId = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+export const getHotelByName = async (req, res) => {
+  const { hotelName } = req.body;
+  try {
+    if (!hotelName) {
+      return res.status(401).json("No hotel name");
+    }
+    const hotels = await HotelsModel.findAll({
+      where: { name: hotelName },
+      include: [
+        {
+          model: RatingModel,
+        },
+        {
+          model: HotelImagesModel,
+        },
+        {
+          model: RoomsModel,
+        },
+      ],
+    });
+
+    const hotelsWithRoomNumbers = await Promise.all(
+      hotels.map(async (hotel) => {
+        const totalRating = hotel.Ratings.reduce(
+          (sum, rating) => sum + parseInt(rating.rate, 10),
+          0
+        );
+        const rating =
+          hotel.Ratings.length > 0 ? totalRating / hotel.Ratings.length : 0; // Prevent division by zero
+
+        // Count the number of rooms for each hotel
+        const roomCount = hotel.Rooms ? hotel.Rooms.length : 0;
+
+        // Get the first item from the HotelImages array
+        const firstHotelImage =
+          hotel.HotelImages && hotel.HotelImages.length > 0
+            ? hotel.HotelImages[0].icon
+            : null;
+
+        // Add room number, room count, and average rating to hotel data
+        hotel.setDataValue("rating", rating);
+        hotel.setDataValue("roomNumber", roomCount);
+        hotel.setDataValue("cover", firstHotelImage);
+
+        return hotel;
+      })
+    );
+
+    if (!hotels) {
+      return res.json("No Hotels Found");
+    }
+    return res.status(200).json(hotelsWithRoomNumbers);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
