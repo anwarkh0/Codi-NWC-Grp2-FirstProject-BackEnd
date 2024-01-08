@@ -9,7 +9,7 @@ const hotelImageRoute = express.Router();
 hotelImageRoute.post("/add",uploadImage.single('icon'),  addHotelImage); 
 
 //get all rooms available
-hotelImageRoute.post("/get", getHotelImage);
+hotelImageRoute.get("/", getHotelImage);
 
 hotelImageRoute.post("/getByhotel", displayImagesByHotel);
 

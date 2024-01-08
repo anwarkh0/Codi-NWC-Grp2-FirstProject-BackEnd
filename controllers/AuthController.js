@@ -5,7 +5,7 @@ import bcrypt from "bcrypt"
 export const signUp = async (req, res) => {
 
     const { firstName, lastName, password, email, role, } = req.body
-    const image = req.file.filename
+    const image = req.file?.filename
     try {
         //check if user already exist
         const hashedPassword = await bcrypt.hash(password, 10)
@@ -26,7 +26,7 @@ export const signUp = async (req, res) => {
 
     }
     catch (err) {
-        console.log(err)
+        console.log(err.message)
     }
 }
 export const logIn = async (req, res) => {

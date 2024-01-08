@@ -1,6 +1,6 @@
 import uploadImage from "../middleware/multer.js";
 import {
-    getImage, deleteImage, editImage, addImage, displayImagesByRoom
+    getImage, deleteImage, editImage, addImage, displayImagesByRoom , getAllImages
 } from "../controllers/roomImageController.js";
 
 import express from "express";
@@ -10,6 +10,8 @@ roomImageRoute.post("/add",uploadImage.single('icon'),  addImage);
 
 //get all rooms available
 roomImageRoute.post("/get", getImage);
+
+roomImageRoute.get("/", getAllImages);
 
 roomImageRoute.post("/getByRoom", displayImagesByRoom);
 

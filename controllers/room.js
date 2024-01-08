@@ -45,6 +45,11 @@ const getRoomById = async (req, res) => {
         },
         {
           model : HotelsModel ,
+          include :[
+            {
+              model : db.UsersModel
+            }
+          ]
         },
         {
           model : RoomImagesModel

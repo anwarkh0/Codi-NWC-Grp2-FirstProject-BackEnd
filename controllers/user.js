@@ -74,7 +74,7 @@ export const getOneUser = async (req, res) => {
 export const getAllUsers = async (req, res) => {
   try {
     const allUsers = await db.UsersModel.findAll();
-    res.status(200).json(allUsers);
+    res.status(200).json({data:allUsers});
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: "cannot fetch Users" });
@@ -83,7 +83,7 @@ export const getAllUsers = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   const id = req.body.id;
-  const icon = req.file?.path;
+  const icon = req.file.path;
   const { firstName, lastName, email, password, oldPassword, role } = req.body;
 
   try {
