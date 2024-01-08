@@ -211,8 +211,13 @@ export const getHotelByName = async (req, res) => {
     if (!hotelName) {
       return res.status(401).json("No hotel name");
     }
+
     const hotels = await HotelsModel.findAll({
-      where: { name: hotelName },
+      where: {
+        name: {
+          [Op.iLike]: `%${hotelName}%`, // Case-insensitive partial match
+        },
+      },
       include: [
         {
           model: RatingModel,
@@ -233,18 +238,14 @@ export const getHotelByName = async (req, res) => {
           0
         );
         const rating =
-          hotel.Ratings.length > 0 ? totalRating / hotel.Ratings.length : 0; // Prevent division by zero
+          hotel.Ratings.length > 0 ? totalRating / hotel.Ratings.length : 0;
 
-        // Count the number of rooms for each hotel
         const roomCount = hotel.Rooms ? hotel.Rooms.length : 0;
-
-        // Get the first item from the HotelImages array
         const firstHotelImage =
           hotel.HotelImages && hotel.HotelImages.length > 0
             ? hotel.HotelImages[0].icon
             : null;
 
-        // Add room number, room count, and average rating to hotel data
         hotel.setDataValue("rating", rating);
         hotel.setDataValue("roomNumber", roomCount);
         hotel.setDataValue("cover", firstHotelImage);
@@ -253,9 +254,10 @@ export const getHotelByName = async (req, res) => {
       })
     );
 
-    if (!hotels) {
+    if (!hotelsWithRoomNumbers || hotelsWithRoomNumbers.length === 0) {
       return res.json("No Hotels Found");
     }
+
     return res.status(200).json(hotelsWithRoomNumbers);
   } catch (error) {
     return res.status(500).json(error);

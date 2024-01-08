@@ -11,7 +11,7 @@ import { authenticate } from "../middleware/authMiddleware.js";
 import { loggedInUser } from "../controllers/AuthController.js";
 const router = express.Router()
 
-router.post("/singup", uploadImage.single("image"), signUp)
+router.post("/signup", uploadImage.single("image"), signUp)
 router.post('/login', logIn);
 router.post('/logout', logOut)
 router.get('/logged-in-user', authenticate, loggedInUser)
