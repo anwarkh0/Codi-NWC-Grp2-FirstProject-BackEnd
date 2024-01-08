@@ -13,6 +13,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import AuthRoutes from "./routes/AuthRouter.js"
 import ruleRouter from "./routes/rule.js";
+import statisticRouter from "./routes/statistics.js";
 
 dotenv.config();
 
@@ -28,8 +29,10 @@ const corsOptions = {
   credentials: true,
   optionsSuccessStatus: 200,
 };
+
 app.use(cors(corsOptions))
 app.use(express.json());
+app.use('/statistic',statisticRouter)
 app.use('/hotel', hotelRouter)
 app.use('/hotel/image', hotelImageRoute)
 app.use('/room', roomRoute)
