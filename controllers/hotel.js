@@ -1,5 +1,5 @@
 import db from "../models/index.js";
-import { getRoomNumber } from "./calculation.js";
+import sequelize from 'sequelize'
 const {
   HotelsModel,
   RatingModel,
@@ -215,7 +215,7 @@ export const getHotelByName = async (req, res) => {
     const hotels = await HotelsModel.findAll({
       where: {
         name: {
-          [Op.iLike]: `%${hotelName}%`, // Case-insensitive partial match
+          [sequelize.Op.like]: `%${hotelName}%`,
         },
       },
       include: [
@@ -260,6 +260,6 @@ export const getHotelByName = async (req, res) => {
 
     return res.status(200).json(hotelsWithRoomNumbers);
   } catch (error) {
-    return res.status(500).json(error);
+    return res.status(500).json(error.message);
   }
 };
